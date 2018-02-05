@@ -1,0 +1,5 @@
+---
+# defaults file for mirrorlist
+mirrorlist_country: '{{ country | default("US") }}'
+mirrorlist_url: "https://www.archlinux.org/mirrorlist/?country={{ mirrorlist_country }}&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
+mirrorlist_trusted_server: https://mirrors.kernel.org/archlinux/$repo/os/$arch

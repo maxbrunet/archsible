@@ -1,0 +1,4 @@
+---
+# vars file for mirrorlist
+
+_mirrorlist_path: /etc/pacman.d/mirrorlist

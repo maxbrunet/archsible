@@ -1,0 +1,6 @@
+---
+# defaults file for locales
+locales_hostname: archsible
+locales_timezone: UTC
+locales_keymap: us
+locales_language: en_US.UTF-8

@@ -1,0 +1,5 @@
+---
+# defaults file for syslinux
+syslinux_root: '{{ _syslinux_uuid }}'
+syslinux_root_mount: /
+syslinux_timeout: 10

@@ -1,0 +1,6 @@
+---
+# tasks file for pacstrap
+- name: Bootstrap the base installation
+  command: 'pacstrap {{ pacstrap_root }} {{ pacstrap_packages | join(" ") }}'
+  args:
+    creates: '{{ pacstrap_root }}/usr/bin/bash'

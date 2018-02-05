@@ -1,0 +1,28 @@
+---
+# tasks file for locales
+- name: Set hostname
+  copy:
+    content: |
+      {{ locales_hostname }}
+    dest: /etc/hostname
+
+- name: Set timezone
+  file:
+    path: /etc/localtime
+    src: '/usr/share/zoneinfo/{{ locales_timezone }}'
+    state: link
+
+- name: Set keymap
+  copy:
+    content: |
+      KEYMAP={{ locales_keymap }}
+    dest: /etc/vconsole.conf
+
+- name: Set language
+  replace:
+    path: /etc/locale.gen
+    regexp: '#{{ locales_language }}'
+    replace: '{{ locales_language }}'
+
+- name: Generate locale
+  command: locale-gen

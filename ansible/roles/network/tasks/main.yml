@@ -1,0 +1,14 @@
+---
+# tasks file for network
+# https://wiki.archlinux.org/index.php/Network_Configuration#Device_names
+- name: Revert to traditional device names
+  file:
+    path: /etc/udev/rules.d/80-net-setup-link.rules
+    src: /dev/null
+    state: link
+
+- name: enable dhcpd for eth0
+  file:
+    path: /etc/systemd/system/multi-user.target.wants/dhcpcd@eth0.service
+    src: /usr/lib/systemd/system/dhcpcd@.service
+    state: link

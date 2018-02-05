@@ -1,0 +1,28 @@
+---
+# tasks file for syslinux
+- name: Install requirements
+  pacman:
+    name: '{{ item }}'
+  with_items:
+    - gptfdisk
+    - syslinux
+
+- name: BIOS - Install Syslinux
+  command: 'syslinux-install_update -i -a -m'
+
+- name: Stat root device
+  stat:
+    path: '{{ _syslinux_device }}'
+  register: _syslinux_device_stat
+
+- name: Configure root partition in Syslinux
+  replace:
+    path: /boot/syslinux/syslinux.cfg
+    regexp: '/dev/sda3'
+    replace: '{{ syslinux_root }}'
+
+- name: Configure Syslinux timeout
+  replace:
+    path: /boot/syslinux/syslinux.cfg
+    regexp: 'TIMEOUT 50'
+    replace: 'TIMEOUT {{ syslinux_timeout }}'

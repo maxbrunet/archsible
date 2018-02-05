@@ -1,0 +1,6 @@
+---
+# defaults file for partition
+partition_device: /dev/sda
+partition_id: '{{ partition_device }}1'
+partiton_mountpoint: /mnt
+partition_reset: false

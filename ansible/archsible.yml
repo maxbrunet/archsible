@@ -1,0 +1,23 @@
+---
+- hosts: all
+  pre_tasks:
+    - name: Create initramfs CPIO image
+      command: /usr/bin/mkinitcpio -p linux
+      #args:
+      #  creates: /boot/initramfs-linux.img
+  roles:
+    - role: bootloader/syslinux
+    - role: locales
+    - role: network
+    - role: vagrant
+  post_tasks:
+    - name: Clean the pacman cache.
+      command: '{{ item }}'
+      with_items:
+        - /usr/bin/pacman -Scc --noconfirm
+        - /usr/bin/pacman-optimize
+    
+    - name: VirtualBox hardware
+      include_role:
+        name: hardware/virtualbox
+      when: ansible_product_name == "VirtualBox"

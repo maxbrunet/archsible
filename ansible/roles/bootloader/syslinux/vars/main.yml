@@ -1,0 +1,15 @@
+---
+# vars file for syslinux
+
+# uuid is not always available in ansible_mounts
+# but we can still find it in ansible_device_links
+_syslinux_device_query: "[?mount == '{{ syslinux_root_mount }}'].device | [0]"
+# Need to stat the device to know if it's a link to a device mapper
+_syslinux_device: '{{ ansible_mounts | json_query(_syslinux_device_query) }}'
+_syslinux_real_device:
+  '{%- if _syslinux_device_stat.stat.islnk -%}
+     {{ _syslinux_device_stat.stat.lnk_source }}
+   {%- else -%}
+     {{ _syslinux_device_stat.stat.path }}
+   {%- endif -%}'
+_syslinux_uuid: 'UUID={{ ansible_device_links.uuids[(_syslinux_real_device | basename)].0 }}'

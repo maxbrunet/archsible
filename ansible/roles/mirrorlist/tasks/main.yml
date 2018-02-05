@@ -1,0 +1,30 @@
+---
+# tasks file for mirrorlist
+
+- name: Insert a trusted mirror
+  lineinfile:
+    path: '{{ _mirrorlist_path }}'
+    line: 'Server = {{ mirrorlist_trusted_server }}'
+    insertbefore: BOF
+
+- name: Install Reflector
+  pacman:
+    name: reflector
+    update_cache: true
+
+- name: Generate MirrorList
+  command: >
+    reflector 
+      --latest 5
+      --country {{ mirrorlist_country }}
+      --protocol https
+      --sort rate
+  register: _mirrorlist_reflector
+
+# Allows to use Ansible `--diff` option
+# to see mirrorlist changes
+- name: Install Optimized MirrorList
+  copy:
+    content: |
+      {{ _mirrorlist_reflector.stdout }}
+    dest: '{{ _mirrorlist_path }}'

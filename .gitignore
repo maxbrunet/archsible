@@ -1,0 +1,22 @@
+
+# Created by https://www.gitignore.io/api/ansible,packer,vagrant
+
+### Ansible ###
+*.retry
+
+### Packer ###
+# Cache objects
+packer_cache/
+output-*/
+
+# For built boxes
+*.box
+
+# For build artifacts
+*.vdi
+
+### Vagrant ###
+.vagrant/
+
+
+# End of https://www.gitignore.io/api/ansible,packer,vagrant

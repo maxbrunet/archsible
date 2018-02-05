@@ -1,0 +1,45 @@
+---
+# vars file for arch-chroot
+
+_chroot_mnt:
+  - src: proc
+    path: /proc
+    fstype: proc
+    opts: nosuid,noexec,nodev
+  - src: sys
+    path: /sys
+    fstype: sysfs
+    opts: nosuid,noexec,nodev,ro
+  - src: udev
+    path: /dev
+    fstype: devtmpfs
+    opts: mode=0755,nosuid
+  - src: devpts
+    path: /dev/pts
+    fstype: devpts
+    opts: mode=0620,gid=5,nosuid,noexec
+  - src: shm
+    path: /dev/shm
+    fstype: tmpfs
+    opts: mode=1777,nosuid,nodev
+  - src: run
+    path: /run
+    fstype: tmpfs
+    opts: nosuid,nodev,mode=0755
+  - src: tmp
+    path: /tmp
+    fstype: tmpfs
+    opts: mode=1777,strictatime,nodev,nosuid
+
+_chroot_maybe_mnt:
+  - src: efivarfs
+    path: /sys/firmware/efi/efivars
+    fstype: efivarfs
+    opts: nosuid,noexec,nodev
+    when: '{{ efivars_file.stat.exists }}'
+
+_chroot_mnt_resolvconf:
+  - src: /etc/resolv.conf
+    path: /etc/resolv.conf
+    fstype: none
+    opts: bind

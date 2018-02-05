@@ -1,0 +1,6 @@
+---
+# defaults file for pacstrap
+pacstrap_root: /mnt
+pacstrap_packages:
+  - base
+  - base-devel
