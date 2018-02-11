@@ -1,38 +1,52 @@
 ---
 # tasks file for partition
-- name: Clearing partition table on disk
-  command: '/usr/bin/sgdisk --zap {{ partition_device }}'
-  when: &new_disk |
-    ansible_devices[( partition_device | basename )].partitions == {} or
-    partition_reset
+- name: Remove all partitions from disk
+  parted:
+    device: '{{ partition_device }}'
+    number: '{{ partition_device | regex_search("^.*?(\d+)$") }}'
+    stage: absent
+  when: partition_reset
+  with_items:
+    '{{ ansible_devices[( partition_device | basename )].partitions }}'
 
-- name: Destroying magic strings and signatures on disk (1)
-  command: '/usr/bin/dd if=/dev/zero of={{ partition_device }} bs=512 count=2048'
-  when: *new_disk
+- name: Create partitions
+  parted:
+    device: '{{ item.device }}'
+    number: '{{ item.number }}'
+    flags: '{{ item.flags | default([]) }}'
+    part_start: '{{ item.part_start }}'
+    part_end: '{{ item.part_end }}'
+    label: '{{ partition_label }}'
+    state: present
+  with_items: '{{ partition_list }}'
+  loop_control:
+    label: '{{ _partition_dev }}'
 
-- name: Destroying magic strings and signatures on disk (2)
-  command: '/usr/bin/wipefs --all {{ partition_device }}'
-  when: *new_disk
+- name: Handle vfat filesystems
+  include_tasks: vfat.yml
+  when: item.fstype == 'vfat'
+  with_items: '{{ partition_list }}'
 
-- name: Creating /root partition on disk
-  command: '/usr/bin/sgdisk --new=1:0:0 {{ partition_device }}'
-  when: *new_disk
+- name: Create filesystems
+  filesystem:
+    fstype: '{{ item.fstype }}'
+    dev: '{{ _partition_dev }}'
+  when: item.fstype != 'vfat'
+  with_items: '{{ partition_list }}'
+  loop_control:
+    label: '{{ _partition_dev }}'
 
-- name: Setting disk bootable
-  command: '/usr/bin/sgdisk {{ partition_device }} --attributes=1:set:2'
-  when: *new_disk
-
-- name: Creating /root filesystem (ext4)
-  command: '/usr/bin/mkfs.ext4 -O ^64bit -F -m 0 -q -L root {{ partition_id }}'
-  when: *new_disk
-
-- name: Mounting root partion to target dir
+- name: Mounting partions to mountpoint directory
   mount:
-    src: "{{ partition_id }}"
-    path: "{{ partition_mountpoint }}"
-    fstype: ext4
-    opts: noatime,errors=remount-ro
+    src: "{{ _partition_dev }}"
+    path: "{{ partition_mountpoint }}{{ item.mountpoint }}"
+    fstype: '{{ item.fstype }}'
+    opts: '{{ item.opts }}'
     state: mounted
+  with_items:
+    '{{ partition_list | sort(attribute="mountpoint") }}'
+  loop_control:
+    label: '{{ _partition_dev }}'
 
 - name: Ensure etc directory exits
   file:

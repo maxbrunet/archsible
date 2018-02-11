@@ -1,0 +1,8 @@
+---
+- name: Check for created vfat filesystem
+  command: 'fdisk --list {{ _partition_dev }}'
+  register: _partition_vfat
+
+- name: Create vfat filesystems
+  command: 'mkfs.vfat {{ _partition_dev }}'
+  when: '"Disklabel type: dos" not in _partition_vfat.stdout_lines'

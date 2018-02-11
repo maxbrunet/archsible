@@ -1,0 +1,3 @@
+---
+# vars file for partition
+_partition_dev: '{{ item.device }}{{ item.number }}'

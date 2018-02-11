@@ -1,0 +1,29 @@
+---
+# tasks file for systemd-boot
+
+- name: Install systemd-boot
+  command: 'bootctl --path={{ systemd_boot_esp }} install'
+
+- name: Stat root device
+  stat:
+    path: '{{ _systemd_boot_device }}'
+  register: _systemd_boot_device_stat
+
+- name: Get root device PARTUUID
+  command: >
+    blkid {{ _systemd_boot_device }}
+    --match-tag PARTUUID --output value
+  changed_when: false
+  check_mode: false
+  register: _systemd_boot_partuuid 
+
+- name: Create boot entries
+  template:
+    src: arch.conf.j2
+    dest: '{{ systemd_boot_esp }}/loader/entries/arch.conf'
+
+- name: Configure default entrie
+  copy:
+    content: |
+      default arch
+    dest: '{{ systemd_boot_esp }}/loader/loader.conf'

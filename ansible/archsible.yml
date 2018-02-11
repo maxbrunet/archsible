@@ -6,7 +6,7 @@
       #args:
       #  creates: /boot/initramfs-linux.img
   roles:
-    - role: bootloader/syslinux
+    - role: bootloader/systemd-boot
     - role: locales
     - role: network
     - role: vagrant
@@ -16,7 +16,7 @@
       with_items:
         - /usr/bin/pacman -Scc --noconfirm
         - /usr/bin/pacman-optimize
-    
+
     - name: VirtualBox hardware
       include_role:
         name: hardware/virtualbox

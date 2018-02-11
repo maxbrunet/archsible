@@ -1,0 +1,6 @@
+---
+# defaults file for systemd-boot
+systemd_boot_esp: /boot
+systemd_boot_root: 'PARTUUID={{ _systemd_boot_partuuid.stdout }}'
+syslinux_root_mount: /
+systemd_boot_fstype: '{{ _systemd_boot_mount.fstype }}'
