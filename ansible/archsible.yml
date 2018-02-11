@@ -6,18 +6,11 @@
       #args:
       #  creates: /boot/initramfs-linux.img
   roles:
+    - role: mirrorlist
     - role: bootloader/systemd-boot
     - role: locales
     - role: network
-    - role: vagrant
-  post_tasks:
-    - name: Clean the pacman cache.
-      command: '{{ item }}'
-      with_items:
-        - /usr/bin/pacman -Scc --noconfirm
-        - /usr/bin/pacman-optimize
-
     - name: VirtualBox hardware
-      include_role:
-        name: hardware/virtualbox
+      role: hardware/virtualbox
       when: ansible_product_name == "VirtualBox"
+    - role: vagrant

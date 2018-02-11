@@ -20,7 +20,7 @@
             "boot_wait": "5s",
             "boot_command": [
                 "<enter><wait10><wait10><wait10><wait5>",
-                "curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
+                "curl -O {{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
                 "sh enable-ssh.sh<enter>"
             ],
             "disk_size": 20480,
@@ -45,11 +45,9 @@
             "type": "shell",
             "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S -H sh '{{ .Path }}'",
             "inline": [
-                "curl -O https://bootstrap.pypa.io/get-pip.py", 
-                "curl -O ${PACKER_HTTP_ADDR}/requirements.txt", 
-                "python get-pip.py",
-                "pip install -r requirements.txt",
-                "echo 'umount /mnt/proc /mnt/sys /mnt/dev/pts/ /mnt/dev/shm /mnt/dev /mnt/run /mnt/tmp /mnt/etc/resolv.conf' > chroot_teardown.sh",
+                "echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist",
+                "pacman -Sy --noconfirm python-pip",
+                "pip install -r http://${PACKER_HTTP_ADDR}/requirements.txt",
                 "curl ${PACKER_HTTP_ADDR}/poweroff.timer -o /etc/systemd/system/poweroff.timer"
             ]
         },

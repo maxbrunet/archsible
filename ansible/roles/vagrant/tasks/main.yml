@@ -41,3 +41,10 @@
     user: vagrant
     state: present
     key: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
+
+- name: Add groups for VirtualBox folder sharing
+  user:
+    name: vagrant
+    groups: vboxsf
+    append: true
+  when: ansible_product_name == "VirtualBox"

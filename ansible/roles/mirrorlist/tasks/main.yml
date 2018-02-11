@@ -1,16 +1,9 @@
 ---
 # tasks file for mirrorlist
 
-- name: Insert a trusted mirror
-  lineinfile:
-    path: '{{ _mirrorlist_path }}'
-    line: 'Server = {{ mirrorlist_trusted_server }}'
-    insertbefore: BOF
-
 - name: Install Reflector
   pacman:
     name: reflector
-    update_cache: true
 
 - name: Generate MirrorList
   command: >
@@ -20,6 +13,8 @@
       --protocol https
       --sort rate
   register: _mirrorlist_reflector
+  changed_when: false
+  check_mode: false
 
 # Allows to use Ansible `--diff` option
 # to see mirrorlist changes
