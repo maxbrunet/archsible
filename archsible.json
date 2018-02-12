@@ -64,7 +64,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "boxes/archsible_{{ .Provider }}_{{ isotime \"2006.01.02-15.04\" }}.box"
+            "output": "archsible.box"
         }
     ]
 }
