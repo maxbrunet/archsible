@@ -1,2 +1,1 @@
-ansible==2.4.3
-jmespath
+../requirements.txt
