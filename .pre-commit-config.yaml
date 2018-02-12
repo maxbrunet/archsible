@@ -1,0 +1,22 @@
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  sha: v1.2.0
+  hooks:
+    - id: check-json
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: pretty-format-json
+      args:
+        - --autofix
+        - --indent
+        - '4'
+        - --no-sort-keys
+    - id: requirements-txt-fixer
+    - id: trailing-whitespace
+- repo: https://github.com/willthames/ansible-lint.git
+  sha: v3.4.20
+  hooks:
+    - id: ansible-lint
+      files: \.(yaml|yml)$
+      args:
+        - -x
+        - ANSIBLE0012
