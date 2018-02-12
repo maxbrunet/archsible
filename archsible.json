@@ -29,7 +29,7 @@
             "ssh_password": "vagrant",
             "ssh_timeout": "{{ user `ssh_timeout` }}",
             "shutdown_command": "sudo systemctl start poweroff.timer",
-            "headless" : "{{ user `headless`}}",
+            "headless": "{{ user `headless`}}",
             "vboxmanage": [
                 [
                     "modifyvm",
@@ -41,7 +41,7 @@
         }
     ],
     "provisioners": [
-         {
+        {
             "type": "shell",
             "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S -H sh '{{ .Path }}'",
             "inline": [

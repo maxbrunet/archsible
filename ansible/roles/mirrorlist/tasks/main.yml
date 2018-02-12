@@ -7,7 +7,7 @@
 
 - name: Generate MirrorList
   command: >
-    reflector 
+    reflector
       --latest 5
       --country {{ mirrorlist_country }}
       --protocol https

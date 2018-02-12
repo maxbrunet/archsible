@@ -15,7 +15,7 @@
     --match-tag PARTUUID --output value
   changed_when: false
   check_mode: false
-  register: _systemd_boot_partuuid 
+  register: _systemd_boot_partuuid
 
 - name: Create boot entries
   template:
