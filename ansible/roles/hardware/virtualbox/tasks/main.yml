@@ -12,14 +12,6 @@
     - virtualbox-guest-modules-arch
     - nfs-utils
 
-- name: Load VB Guest kernel modules
-  copy:
-    content:
-      vboxguest
-      vboxsf
-      vboxvideo
-    dest: /etc/modules-load.d/virtualbox.conf
-
 - name: Enable VB guest services
   service:
     name: '{{ item }}'
