@@ -1,0 +1,13 @@
+---
+- name: Set dhcpd per interfaces
+  file:
+    path:
+      '/etc/systemd/system/multi-user.target.wants/dhcpcd@{{ item }}.service'
+    src: /usr/lib/systemd/system/dhcpcd@.service
+    state: '{{ "link" if not dhcpd_all_interfaces else "absent" }}'
+  with_items: '{{ dhcpd_interfaces }}'
+
+- name: Set dhcpd service status
+  service:
+    name: dhcpd
+    enabled: '{{ dhcpd_all_interfaces }}'

@@ -1,0 +1,5 @@
+---
+# defaults file for dhcpd
+dhcpd_interfaces:
+  - '{{ ansible_default_ipv4.interface }}'
+dhcpd_all_interfaces: false
