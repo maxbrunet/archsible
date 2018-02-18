@@ -1,0 +1,22 @@
+---
+# tasks file for connman
+- name: Install ConnMan
+  pacman:
+    name: connman
+
+- name: Configure ConnMan
+  ini_file:
+    path: '{{ connman_conf_path }}'
+    section: '{{ item.0.section }}'
+    option: '{{ item.1.option }}'
+    value: '{{ item.1.value }}'
+  with_subelements:
+    - '{{ connman_conf }}'
+    - settings
+  loop_control:
+    label: '{{ item.1.option }}'
+
+- name: Enable ConnMan
+  service:
+    name: connman
+    enabled: true

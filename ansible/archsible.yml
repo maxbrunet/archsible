@@ -9,7 +9,7 @@
     - role: mirrorlist
     - role: bootloader/systemd-boot
     - role: locales
-    - role: network/dhcpd
+    - role: network/connman
     - name: VirtualBox hardware
       role: hardware/virtualbox
       when: ansible_product_name == "VirtualBox"
