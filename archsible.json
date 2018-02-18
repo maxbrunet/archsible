@@ -54,7 +54,9 @@
         {
             "type": "ansible-local",
             "extra_arguments": [
-                "--extra-vars \"country={{ user `country` }}\"",
+                "--diff",
+                "--extra-vars",
+                "country={{ user `country` }}",
                 "-vvv"
             ],
             "playbook_file": "ansible/bootstrap.yml",
