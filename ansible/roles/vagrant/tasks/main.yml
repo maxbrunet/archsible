@@ -9,12 +9,6 @@
   pacman:
     name: openssh
 
-- name: Disable sshd client reverse dns lookup
-  replace:
-    path: /etc/ssh/sshd_config
-    regexp: '#UseDNS yes'
-    replace: 'UseDNS no'
-
 - name: Enable sshd
   service:
     name: sshd
