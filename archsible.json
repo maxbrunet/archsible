@@ -19,7 +19,7 @@
             "http_directory": "srv",
             "boot_wait": "5s",
             "boot_command": [
-                "<enter><wait10><wait10><wait10><wait5>",
+                "<enter><wait10><wait10><wait10><wait10>",
                 "curl -O {{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
                 "sh enable-ssh.sh<enter>"
             ],
