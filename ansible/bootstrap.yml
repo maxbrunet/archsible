@@ -14,9 +14,3 @@
   vars:
     ansible_connection: chroot
     ansible_host: '{{ target_dir }}'
-
-- import_playbook: optimize_box.yml
-  when: packer_build_name is defined
-  vars:
-    ansible_connection: chroot
-    ansible_host: '{{ target_dir }}'
