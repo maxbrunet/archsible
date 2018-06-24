@@ -22,16 +22,10 @@
   loop_control:
     label: '{{ _partition_dev }}'
 
-- name: Handle vfat filesystems
-  include_tasks: vfat.yml
-  when: item.fstype == 'vfat'
-  with_items: '{{ partition_list }}'
-
 - name: Create filesystems
   filesystem:
     fstype: '{{ item.fstype }}'
     dev: '{{ _partition_dev }}'
-  when: item.fstype != 'vfat'
   with_items: '{{ partition_list }}'
   loop_control:
     label: '{{ _partition_dev }}'
