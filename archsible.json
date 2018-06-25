@@ -23,7 +23,7 @@
                 "curl -O {{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
                 "sh enable-ssh.sh<enter>"
             ],
-            "disk_size": 20480,
+            "disk_size": 131072,
             "hard_drive_interface": "sata",
             "ssh_username": "root",
             "ssh_password": "vagrant",
@@ -36,6 +36,18 @@
                     "{{.Name}}",
                     "--firmware",
                     "efi"
+                ],
+                [
+                    "storageattach",
+                    "{{.Name}}",
+                    "--storagectl",
+                    "SATA Controller",
+                    "--port",
+                    0,
+                    "--device",
+                    0,
+                    "--nonrotational",
+                    "on"
                 ]
             ]
         }
