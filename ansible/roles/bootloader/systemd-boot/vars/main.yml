@@ -3,7 +3,7 @@
 
 # uuid is not always available in ansible_mounts
 # but we can still find it in ansible_device_links
-_systemd_boot_mount_query: "[?mount == '{{ syslinux_root_mount }}'] | [0]"
+_systemd_boot_mount_query: "[?mount == '{{ systemd_root_mount }}'] | [0]"
 # Need to stat the device to know if it's a link to a device mapper
 _systemd_boot_mount:
   '{{ ansible_mounts | json_query(_systemd_boot_mount_query) }}'
