@@ -1,38 +1,30 @@
-Role Name
-=========
+# arch-chroot
 
-A brief description of the role goes here.
+Reproduce the behavior of the [`arch-root` script](https://wiki.archlinux.org/index.php/Change_root#Using_arch-chroot) for Ansible by mounting the api filesystems and making `/etc/resolv.conf` available from the chroot. 
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Name         | Default | Description                          |
+| ------------ | ------- | ------------------------------------ |
+| `chroot_dir` | `/mnt`  | Mountpoint of the new root directory |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
-Example Playbook
-----------------
+## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+- hosts: arch
+  roles:
+    - role: arch-chroot
+      chroot_dir: /path/to/new/root
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Author Information
 
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Maxime Brunet (@maxbrunet)
