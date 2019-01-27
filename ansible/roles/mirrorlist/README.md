@@ -8,9 +8,9 @@ None
 
 ## Role Variables
 
-| Name                 | Default                         | Description     |
-| -------------------- | ------------------------------- | --------------- |
-| `mirrorlist_country` | `{{ country | default("US") }}` | Mirrors country |
+| Name                 | Default                          | Description     |
+| -------------------- | -------------------------------- | --------------- |
+| `mirrorlist_country` | `{{ country \| default("US") }}` | Mirrors country |
 
 ## Dependencies
 
