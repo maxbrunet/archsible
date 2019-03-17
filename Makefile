@@ -3,6 +3,11 @@ all: archsible.box
 %.box: %.json
 	@packer build -on-error=ask $<
 
+.PHONY: vm
+vm:
+	@vagrant box add archsible.box --name archsible
+	@vagrant up
+
 .PHONY: clean
 clean:
 	@vagrant destroy
