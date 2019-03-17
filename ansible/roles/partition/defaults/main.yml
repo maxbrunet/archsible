@@ -1,7 +1,6 @@
 ---
 # defaults file for partition
 partition_device: /dev/sda
-partiton_mountpoint: /mnt
 partition_reset: false
 partition_label: gpt
 
@@ -13,13 +12,9 @@ partition_list:
       - esp
     part_start: 0%
     part_end: 256MiB
-    mountpoint: /boot
     fstype: vfat
-    opts: defaults
   - device: '{{ partition_device }}'
     number: 2
     part_start: 256MiB
     part_end: 100%
-    mountpoint: /
     fstype: ext4
-    opts: defaults

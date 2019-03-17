@@ -1,0 +1,3 @@
+---
+# vars file for mount
+_partition_dev: '{{ item.device }}{{ item.number }}'

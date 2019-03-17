@@ -1,0 +1,15 @@
+---
+# defaults file for mount
+partition_mountpoint: /mnt
+
+partition_list:
+  - device: '{{ partition_device }}'
+    number: 1
+    mountpoint: /boot
+    fstype: vfat
+    opts: defaults
+  - device: '{{ partition_device }}'
+    number: 2
+    mountpoint: /
+    fstype: ext4
+    opts: defaults

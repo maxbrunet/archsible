@@ -1,0 +1,31 @@
+---
+# tasks file for mount
+
+- name: Mounting partitions to mountpoint directory
+  mount:
+    src: "{{ _partition_dev }}"
+    path: "{{ partition_mountpoint }}{{ item.mountpoint }}"
+    fstype: '{{ item.fstype }}'
+    opts: '{{ item.opts }}'
+    state: mounted
+  with_items:
+    '{{ partition_list | sort(attribute="mountpoint") }}'
+  loop_control:
+    label: '{{ _partition_dev }}'
+
+- name: Ensure etc directory exits
+  file:
+    path: '{{ partition_mountpoint }}/etc'
+    state: directory
+
+- name: Generate the filesystem table
+  command: '/usr/bin/genfstab -p -t UUID {{ partition_mountpoint }}'
+  register: _partition_genfstab
+  changed_when: false
+  check_mode: false
+
+- name: Write the filesystem table
+  copy:
+    content: |
+      {{ _partition_genfstab.stdout }}
+    dest: '{{ partition_mountpoint }}/etc/fstab'

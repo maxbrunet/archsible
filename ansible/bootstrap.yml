@@ -6,6 +6,8 @@
     - role: mirrorlist
     - role: partition
       partition_mountpoint: '{{ target_dir }}'
+    - role: mount
+      partition_mountpoint: '{{ target_dir }}'
     - role: pacstrap
     - role: arch-chroot
       chroot_mnt: '{{ target_dir }}'
