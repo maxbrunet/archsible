@@ -23,6 +23,7 @@
                 "curl -O {{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
                 "sh enable-ssh.sh<enter>"
             ],
+            "memory": 1024,
             "disk_size": 131072,
             "hard_drive_interface": "sata",
             "ssh_username": "root",
