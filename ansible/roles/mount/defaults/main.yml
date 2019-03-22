@@ -1,14 +1,15 @@
 ---
 # defaults file for mount
-partition_mountpoint: /mnt
+mount_device: /dev/sda
+mount_mountpoint: /mnt
 
-partition_list:
-  - device: '{{ partition_device }}'
+mount_list:
+  - device: '{{ mount_device }}'
     number: 1
     mountpoint: /boot
     fstype: vfat
     opts: defaults
-  - device: '{{ partition_device }}'
+  - device: '{{ mount_device }}'
     number: 2
     mountpoint: /
     fstype: ext4

@@ -1,6 +1,6 @@
 # partition
 
-Partition a device and mount the partitions.
+Partition a storage device.
 
 ## Requirements
 
@@ -11,10 +11,9 @@ None
 | Name                  | Default    | Description                         |
 | --------------------- | ---------- | ----------------------------------- |
 | `partition_device`    | `/dev/sda` | Device to partition and use as root |
-| `partiton_mountpoint` | `/mnt`     | Root mountpoint                     |
 | `partition_reset`     | `false`    | Wipe existing partition             |
 | `partition_label`     | `gpt`      | Partition table type                |
-| `partition_list`      | `Map<device, number, flags, part_start, part_end, mountpoint, fstype, opts>` | Map of partitions |
+| `partition_list`      | `Map<device, number, flags, part_start, part_end, fstype>` | Map of partitions |
 
 ## Dependencies
 

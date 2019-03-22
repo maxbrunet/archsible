@@ -3,29 +3,29 @@
 
 - name: Mounting partitions to mountpoint directory
   mount:
-    src: "{{ _partition_dev }}"
-    path: "{{ partition_mountpoint }}{{ item.mountpoint }}"
+    src: "{{ _mount_dev }}"
+    path: "{{ mount_mountpoint }}{{ item.mountpoint }}"
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
     state: mounted
   with_items:
-    '{{ partition_list | sort(attribute="mountpoint") }}'
+    '{{ mount_list | sort(attribute="mountpoint") }}'
   loop_control:
-    label: '{{ _partition_dev }}'
+    label: '{{ _mount_dev }}'
 
 - name: Ensure etc directory exits
   file:
-    path: '{{ partition_mountpoint }}/etc'
+    path: '{{ mount_mountpoint }}/etc'
     state: directory
 
 - name: Generate the filesystem table
-  command: '/usr/bin/genfstab -p -t UUID {{ partition_mountpoint }}'
-  register: _partition_genfstab
+  command: '/usr/bin/genfstab -p -t UUID {{ mount_mountpoint }}'
+  register: _mount_genfstab
   changed_when: false
   check_mode: false
 
 - name: Write the filesystem table
   copy:
     content: |
-      {{ _partition_genfstab.stdout }}
-    dest: '{{ partition_mountpoint }}/etc/fstab'
+      {{ _mount_genfstab.stdout }}
+    dest: '{{ mount_mountpoint }}/etc/fstab'
