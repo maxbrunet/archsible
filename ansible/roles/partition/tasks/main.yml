@@ -11,6 +11,7 @@
 
 - name: Create partitions
   parted:
+    name: '{{ item.name | default() }}'
     device: '{{ item.device }}'
     number: '{{ item.number }}'
     flags: '{{ item.flags | default([]) }}'

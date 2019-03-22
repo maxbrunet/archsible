@@ -10,9 +10,8 @@ None
 
 | Name                  | Default    | Description                         |
 | --------------------- | ---------- | ----------------------------------- |
-| `mount_device`        | `/dev/sda` | Device to partition and use as root |
 | `mount_mountpoint`    | `/mnt`     | Root mountpoint                     |
-| `mount_list`          | `Map<device, number, mountpoint, fstype, opts>` | Map of partitions |
+| `mount_list`          | `Map<src, mountpoint, fstype, opts>` | Map of partitions |
 
 ## Dependencies
 

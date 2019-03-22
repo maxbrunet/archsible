@@ -2,6 +2,5 @@
 # defaults file for systemd-boot
 systemd_boot_esp: /boot
 systemd_boot_entry: '{{ systemd_boot_esp }}/loader/entries/arch.conf'
-systemd_boot_root: 'PARTUUID={{ _systemd_boot_partuuid.stdout }}'
-systemd_root_mount: /
-systemd_boot_fstype: '{{ _systemd_boot_mount.fstype }}'
+systemd_boot_root: 'PARTLABEL=root'
+systemd_boot_fstype: ext4

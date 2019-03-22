@@ -3,7 +3,7 @@
 
 - name: Mounting partitions to mountpoint directory
   mount:
-    src: "{{ _mount_dev }}"
+    src: "{{ item.src }}"
     path: "{{ mount_mountpoint }}{{ item.mountpoint }}"
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
@@ -11,7 +11,7 @@
   with_items:
     '{{ mount_list | sort(attribute="mountpoint") }}'
   loop_control:
-    label: '{{ _mount_dev }}'
+    label: '{{ item.src }}'
 
 - name: Ensure etc directory exits
   file:
@@ -19,7 +19,7 @@
     state: directory
 
 - name: Generate the filesystem table
-  command: '/usr/bin/genfstab -p -t UUID {{ mount_mountpoint }}'
+  command: '/usr/bin/genfstab -p -t PARTLABEL {{ mount_mountpoint }}'
   register: _mount_genfstab
   changed_when: false
   check_mode: false
