@@ -12,7 +12,7 @@ None
 | --------------------- | ------------------------------------------------- | ---------------------------------------- |
 | `systemd_boot_esp`    | `/boot`                                           | ESP mountpoint used to copy the EFI boot loader |
 | `systemd_boot_entry`  | `{{ systemd_boot_esp }}/loader/entries/arch.conf` | Path to default boot entry file          |
-| `systemd_boot_root`   | `PARTLABEL=root`                                  | Root partition identifier.               |
+| `systemd_boot_root`   | `PARTLABEL=System`                                | Root partition identifier.               |
 | `systemd_boot_fstype` | `ext4`                                            | Filesystem of the root partition.        |
 
 ## Dependencies

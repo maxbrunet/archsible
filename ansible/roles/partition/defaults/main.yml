@@ -5,7 +5,7 @@ partition_reset: false
 partition_label: gpt
 
 partition_list:
-  - name: boot
+  - name: EFI
     device: '{{ partition_device }}'
     number: 1
     flags:
@@ -14,7 +14,7 @@ partition_list:
     part_start: 0%
     part_end: 256MiB
     fstype: vfat
-  - name: root
+  - name: System
     device: '{{ partition_device }}'
     number: 2
     part_start: 256MiB

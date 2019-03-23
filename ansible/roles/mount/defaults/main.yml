@@ -3,11 +3,11 @@
 mount_base_mountpoint: ''
 
 mount_list:
-  - src: PARTLABEL=boot
+  - src: PARTLABEL=EFI
     mountpoint: /boot
     fstype: vfat
     opts: defaults
-  - src: PARTLABEL=root
+  - src: PARTLABEL=System
     mountpoint: /
     fstype: ext4
     opts: defaults
