@@ -4,7 +4,7 @@
 - name: Mounting partitions to mountpoint directory
   mount:
     src: "{{ item.src }}"
-    path: "{{ mount_mountpoint }}{{ item.mountpoint }}"
+    path: "{{ mount_base_mountpoint }}{{ item.mountpoint }}"
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
     state: mounted
@@ -12,20 +12,3 @@
     '{{ mount_list | sort(attribute="mountpoint") }}'
   loop_control:
     label: '{{ item.src }}'
-
-- name: Ensure etc directory exits
-  file:
-    path: '{{ mount_mountpoint }}/etc'
-    state: directory
-
-- name: Generate the filesystem table
-  command: '/usr/bin/genfstab -p -t PARTLABEL {{ mount_mountpoint }}'
-  register: _mount_genfstab
-  changed_when: false
-  check_mode: false
-
-- name: Write the filesystem table
-  copy:
-    content: |
-      {{ _mount_genfstab.stdout }}
-    dest: '{{ mount_mountpoint }}/etc/fstab'

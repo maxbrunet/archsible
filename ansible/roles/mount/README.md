@@ -8,10 +8,10 @@ None
 
 ## Role Variables
 
-| Name                  | Default    | Description                         |
-| --------------------- | ---------- | ----------------------------------- |
-| `mount_mountpoint`    | `/mnt`     | Root mountpoint                     |
-| `mount_list`          | `Map<src, mountpoint, fstype, opts>` | Map of partitions |
+| Name                    | Default    | Description                             |
+| ----------------------- | ---------- | --------------------------------------- |
+| `mount_base_mountpoint` |            | Root mountpoint. Empty string for `/`.  |
+| `mount_list`            | `Map<src, mountpoint, fstype, opts>` | Map of mounts |
 
 ## Dependencies
 

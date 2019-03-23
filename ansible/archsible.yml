@@ -6,6 +6,7 @@
       #args:
       #  creates: /boot/initramfs-linux.img
   roles:
+    - role: mount
     - role: mirrorlist
     - role: bootloader/systemd-boot
     - role: locales

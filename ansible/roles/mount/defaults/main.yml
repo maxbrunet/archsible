@@ -1,6 +1,6 @@
 ---
 # defaults file for mount
-mount_mountpoint: /mnt
+mount_base_mountpoint: ''
 
 mount_list:
   - src: PARTLABEL=boot
