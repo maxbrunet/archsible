@@ -1,10 +1,21 @@
 ---
+
+- name: Ensure filesystems utilities are installed
+  pacman:
+    name: '{{ item.packages }}'
+  when: item.fstype in partition_list | map(attribute="fstype")
+  with_items:
+    - parted
+    - '{{ _partition_fsprogs }}'
+  loop_control:
+    label: '{{ item.packages }}'
+
 # tasks file for partition
 - name: Remove all partitions from disk
   parted:
     device: '{{ partition_device }}'
     number: '{{ partition_device | regex_search("^.*?(\d+)$") }}'
-    stage: absent
+    state: absent
   when: partition_reset
   with_items:
     '{{ ansible_devices[( partition_device | basename )].partitions }}'
