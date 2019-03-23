@@ -9,5 +9,9 @@ mount_list:
     opts: defaults
   - src: PARTLABEL=System
     mountpoint: /
-    fstype: ext4
+    fstype: btrfs
+    opts: defaults
+  - src: PARTLABEL=Data
+    mountpoint: /home
+    fstype: xfs
     opts: defaults

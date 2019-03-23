@@ -1,10 +1,5 @@
 ---
 - hosts: all
-  pre_tasks:
-    - name: Create initramfs CPIO image
-      command: /usr/bin/mkinitcpio -p linux
-      #args:
-      #  creates: /boot/initramfs-linux.img
   roles:
     - role: mount
     - role: mirrorlist
@@ -15,3 +10,8 @@
       role: hardware/virtualbox
       when: ansible_product_name == "VirtualBox"
     - role: vagrant
+  post_tasks:
+    - name: Refresh initramfs CPIO image
+      command: /usr/bin/mkinitcpio -p linux
+      #args:
+      #  creates: /boot/initramfs-linux.img

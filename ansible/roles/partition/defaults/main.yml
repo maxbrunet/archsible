@@ -4,6 +4,11 @@ partition_device: /dev/sda
 partition_reset: false
 partition_label: gpt
 
+# Default: use full disk to install Arch Linux
+# and assume you use an SSD and want to over-provision by 10%
+partition_start: 0%
+partition_end: 90%
+
 partition_list:
   - name: EFI
     device: '{{ partition_device }}'
@@ -11,12 +16,18 @@ partition_list:
     flags:
       - boot
       - esp
-    part_start: 0%
-    part_end: 256MiB
+    part_start: '{{ partition_start }}'
+    part_end: 550MiB
     fstype: vfat
   - name: System
     device: '{{ partition_device }}'
     number: 2
-    part_start: 256MiB
-    part_end: 100%
-    fstype: ext4
+    part_start: 550MiB
+    part_end: 26150MiB
+    fstype: btrfs
+  - name: Data
+    device: '{{ partition_device }}'
+    number: 3
+    part_start: 26150MiB
+    part_end: '{{ partition_end }}'
+    fstype: xfs
