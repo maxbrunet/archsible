@@ -13,7 +13,7 @@ None
 | `locales_hostname` | `archsible`   | Hostname    |
 | `locales_timezone` | `UTC`         | Timezone    |
 | `locales_keymap`   | `us`          | Keymap      |
-| `locales_language` | `en_US.UTF-8` | Language    | 
+| `locales_language` | `en_US.UTF-8` | Language    |
 
 ## Dependencies
 

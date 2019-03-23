@@ -24,7 +24,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: partition 
+    - role: partition
 ```
 
 ## Author Information

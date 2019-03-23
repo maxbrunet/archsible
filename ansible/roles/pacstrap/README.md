@@ -22,7 +22,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: pacstrap 
+    - role: pacstrap
 ```
 
 ## Author Information

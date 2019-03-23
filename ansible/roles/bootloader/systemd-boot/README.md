@@ -24,7 +24,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: bootloader/systemd-boot 
+    - role: bootloader/systemd-boot
 ```
 
 ## Author Information

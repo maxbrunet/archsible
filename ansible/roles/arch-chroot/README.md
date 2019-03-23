@@ -1,6 +1,6 @@
 # arch-chroot
 
-Reproduce the behavior of the [`arch-root` script](https://wiki.archlinux.org/index.php/Change_root#Using_arch-chroot) for Ansible by mounting the api filesystems and making `/etc/resolv.conf` available from the chroot. 
+Reproduce the behavior of the [`arch-root` script](https://wiki.archlinux.org/index.php/Change_root#Using_arch-chroot) for Ansible by mounting the api filesystems and making `/etc/resolv.conf` available from the chroot.
 
 ## Requirements
 
