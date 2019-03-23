@@ -1,6 +1,14 @@
 ---
 # tasks file for mount
 
+- name: Ensure filesystems utilities are installed
+  pacman:
+    name: '{{ item.packages }}'
+  when: item.fstype in partition_list | map(attribute="fstype")
+  with_items: '{{ _mount_fsprogs }}'
+  loop_control:
+    label: '{{ item.packages }}'
+
 - name: Mounting partitions to mountpoint directory
   mount:
     src: "{{ item.src }}"
