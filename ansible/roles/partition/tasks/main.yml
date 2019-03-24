@@ -14,14 +14,6 @@
   with_items:
     '{{ ansible_devices[( partition_device | basename )].partitions }}'
 
-- name: Ensure filesystems utilities are installed
-  pacman:
-    name: '{{ item.packages }}'
-  when: item.fstype in partition_list | map(attribute="fstype")
-  with_items: '{{ _partition_fsprogs }}'
-  loop_control:
-    label: '{{ item.packages }}'
-
 - name: Create partitions
   parted:
     name: '{{ item.name | default() }}'

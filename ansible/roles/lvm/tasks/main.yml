@@ -1,16 +1,6 @@
 ---
 # tasks file for lvm
 
-- name: Ensure filesystems utilities are installed
-  pacman:
-    name: '{{ item.packages }}'
-  when: |
-    item.fstype in lvm_lvs | map(attribute="fstype")
-    or item.fstype == "lvm"
-  with_items: '{{ _lvm_fsprogs }}'
-  loop_control:
-    label: '{{ item.packages }}'
-
 - name: Create volume groups
   lvg:
     vg: '{{ item.vg}}'
