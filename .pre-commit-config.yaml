@@ -20,3 +20,5 @@
       args:
         - -x
         - ANSIBLE0012
+        - --exclude
+        - 'ansible/roles/vendor'

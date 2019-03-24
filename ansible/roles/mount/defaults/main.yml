@@ -15,3 +15,31 @@ mount_list:
     mountpoint: /home
     fstype: xfs
     opts: defaults
+  - src: PARTLABEL=System
+    mountpoint: /.snapshots
+    fstype: btrfs
+    opts: subvol=@.snapshots
+  - src: PARTLABEL=System
+    mountpoint: /opt
+    fstype: btrfs
+    opts: subvol=@opt
+  - src: PARTLABEL=System
+    mountpoint: /root
+    fstype: btrfs
+    opts: subvol=@root
+  - src: PARTLABEL=System
+    mountpoint: /srv
+    fstype: btrfs
+    opts: subvol=@srv
+  - src: PARTLABEL=System
+    mountpoint: /tmp
+    fstype: btrfs
+    opts: subvol=@tmp
+  - src: PARTLABEL=System
+    mountpoint: /usr/local
+    fstype: btrfs
+    opts: subvol=@usr-local
+  - src: PARTLABEL=System
+    mountpoint: /var
+    fstype: btrfs
+    opts: subvol=@var

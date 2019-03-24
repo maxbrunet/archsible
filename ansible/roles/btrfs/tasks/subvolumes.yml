@@ -1,0 +1,11 @@
+---
+- name: '{{ _btrfs_mountpoint.item }} - Create BTFS subvolumes'
+  btrfs_subvolume:
+    path: '{{ _btrfs_mountpoint.path }}/{{ item.path }}'
+    qgroups: '{{ item.qgroups | default(omit) }}'
+    commit: '{{ item.commit | default(omit) }}'
+    recursive: '{{ item.recursive | default(omit) }}'
+    state: '{{ item.state | default("present") }}'
+  with_items: '{{ btrfs_volumes[_btrfs_mountpoint.item].subvolumes }}'
+  tags:
+    - skip_ansible_lint

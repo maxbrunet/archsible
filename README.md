@@ -26,6 +26,7 @@ git clone https://github.com/maxbrunet/archsible.git
 pacman -Sy python-pip
 cd archsible
 pip install -r requirements.txt
+ansible-galaxy install -r requirements.yml -p ansible/roles/vendor
 ```
 
 * Use the Ansible variables to configure Archsible to suit your needs

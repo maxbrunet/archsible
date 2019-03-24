@@ -59,7 +59,7 @@
             "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -E -S -H sh '{{ .Path }}'",
             "inline": [
                 "echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist",
-                "pacman -Sy --noconfirm python-pip",
+                "pacman -Sy --noconfirm git python-pip",
                 "pip install -r http://${PACKER_HTTP_ADDR}/requirements.txt",
                 "curl ${PACKER_HTTP_ADDR}/poweroff.timer -o /etc/systemd/system/poweroff.timer"
             ]
@@ -73,7 +73,8 @@
                 "-vvv"
             ],
             "playbook_file": "ansible/bootstrap.yml",
-            "playbook_dir": "ansible/"
+            "playbook_dir": "ansible/",
+            "galaxy_file": "requirements.yml"
         }
     ],
     "post-processors": [

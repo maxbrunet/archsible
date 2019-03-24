@@ -3,8 +3,10 @@
 - hosts: all
   tags: always
   roles:
+    - role: maxbrunet.btrfs-subvolume
     - role: mirrorlist
     - role: partition
+    - role: btrfs
     - role: mount
       mount_base_mountpoint: '{{ target_dir }}'
     - role: pacstrap

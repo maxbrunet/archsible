@@ -1,0 +1,15 @@
+---
+# defaults file for btrfs
+
+btrfs_volumes:
+  PARTLABEL=System:
+    default: '@'
+    subvolumes:
+      - path: '@'
+      - path: '@.snapshots'
+      - path: '@opt'
+      - path: '@root'
+      - path: '@srv'
+      - path: '@tmp'
+      - path: '@usr-local'
+      - path: '@var'
