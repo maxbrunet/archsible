@@ -1,0 +1,18 @@
+---
+# vars file for mkinitcpio
+
+_mkinitcpio_hookdeps:
+  - hook: btrfs
+    packages: btrfs-progs
+  - hook: mkinitcpio-nfs-utils
+    packages: nfs
+  - hook: dmraid
+    packages: dmraid
+  - hook: mdadm
+    packages: mdadm
+  - hook: mdadm_udev
+    packages: mdadm
+  - hook: encrypt
+    packages: cryptsetup
+  - hook: lvm2
+    packages: lvm2

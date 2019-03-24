@@ -7,39 +7,39 @@ mount_list:
     mountpoint: /boot
     fstype: vfat
     opts: defaults
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /
     fstype: btrfs
     opts: defaults
-  - src: PARTLABEL=Data
+  - src: /dev/system/home
     mountpoint: /home
     fstype: xfs
     opts: defaults
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /.snapshots
     fstype: btrfs
     opts: subvol=@.snapshots
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /opt
     fstype: btrfs
     opts: subvol=@opt
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /root
     fstype: btrfs
     opts: subvol=@root
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /srv
     fstype: btrfs
     opts: subvol=@srv
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /tmp
     fstype: btrfs
     opts: subvol=@tmp
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /usr/local
     fstype: btrfs
     opts: subvol=@usr-local
-  - src: PARTLABEL=System
+  - src: /dev/system/root
     mountpoint: /var
     fstype: btrfs
     opts: subvol=@var

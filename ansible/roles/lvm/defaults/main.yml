@@ -1,0 +1,16 @@
+---
+# defaults file for lvm
+
+lvm_vgs:
+  - vg: system
+    pvs: /dev/disk/by-partlabel/Primary
+
+lvm_lvs:
+  - lv: root
+    vg: system
+    size: 40G
+    fstype: btrfs
+  - lv: home
+    vg: system
+    size: 50G
+    fstype: xfs

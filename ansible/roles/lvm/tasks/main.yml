@@ -1,0 +1,37 @@
+---
+# tasks file for lvm
+
+- name: Ensure filesystems utilities are installed
+  pacman:
+    name: '{{ item.packages }}'
+  when: |
+    item.fstype in lvm_lvs | map(attribute="fstype")
+    or item.fstype == "lvm"
+  with_items: '{{ _lvm_fsprogs }}'
+  loop_control:
+    label: '{{ item.packages }}'
+
+- name: Create volume groups
+  lvg:
+    vg: '{{ item.vg}}'
+    pvs: '{{ item.pvs }}'
+  with_items: '{{ lvm_vgs }}'
+  loop_control:
+    label: '{{ item.vg }}'
+
+- name: Create logical volumes
+  lvol:
+    vg: '{{ item.vg }}'
+    lv: '{{ item.lv }}'
+    size: '{{ item.size }}'
+  with_items: '{{ lvm_lvs }}'
+  loop_control:
+    label: '{{ item.lv }}'
+
+- name: Create filesystems
+  filesystem:
+    fstype: '{{ item.fstype }}'
+    dev: '/dev/{{ item.vg  }}/{{ item.lv }}'
+  with_items: '{{ lvm_lvs }}'
+  loop_control:
+    label: '{{ item.lv }}'

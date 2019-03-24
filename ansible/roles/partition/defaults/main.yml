@@ -19,15 +19,11 @@ partition_list:
     part_start: '{{ partition_start }}'
     part_end: 550MiB
     fstype: vfat
-  - name: System
+  - name: Primary
     device: '{{ partition_device }}'
     number: 2
+    flags:
+      - lvm
     part_start: 550MiB
-    part_end: 26150MiB
-    fstype: btrfs
-  - name: Data
-    device: '{{ partition_device }}'
-    number: 3
-    part_start: 26150MiB
     part_end: '{{ partition_end }}'
-    fstype: xfs
+    fstype: lvm

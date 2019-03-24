@@ -6,6 +6,7 @@
     - role: maxbrunet.btrfs-subvolume
     - role: mirrorlist
     - role: partition
+    - role: lvm
     - role: btrfs
     - role: mount
       mount_base_mountpoint: '{{ target_dir }}'
