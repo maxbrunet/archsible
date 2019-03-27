@@ -24,6 +24,7 @@ builders:
   memory: 1024
   disk_size: 131072
   hard_drive_interface: sata
+  hard_drive_nonrotational: 'true'
   ssh_username: root
   ssh_password: vagrant
   ssh_timeout: '{{ user `ssh_timeout` }}'
@@ -34,16 +35,6 @@ builders:
     - '{{ .Name }}'
     - --firmware
     - efi
-  - - storageattach
-    - '{{ .Name }}'
-    - --storagectl
-    - SATA Controller
-    - --port
-    - 0
-    - --device
-    - 0
-    - --nonrotational
-    - 'on'
 provisioners:
 - type: shell
   execute_command: "echo 'vagrant' | {{ .Vars }} sudo -E -S -H sh '{{ .Path }}'"
