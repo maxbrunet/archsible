@@ -3,9 +3,9 @@
 
 - name: Install hooks dependencies
   pacman:
-    name: '{{ item.packages }}'
-  when: item.hook in mkinitcpio_hooks
-  with_items: '{{ _mkinitcpio_hookdeps }}'
+    name: '{{ _mkinitcpio_hookdeps[item] }}'
+  when: item in _mkinitcpio_hookdeps
+  with_items: '{{ mkinitcpio_hooks }}'
 
 - name: Create mkinitcpio config
   template:

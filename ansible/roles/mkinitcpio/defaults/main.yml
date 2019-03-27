@@ -9,9 +9,17 @@ mkinitcpio_preset: linux
 mkinitcpio_conf: /etc/mkinitcpio.conf
 mkinitcpio_image: /boot/initramfs-linux.img
 
-mkinitcpio_modules: ''
-mkinitcpio_binaries: ''
-mkinitcpio_files: ''
-mkinitcpio_hooks: base udev autodetect modconf block filesystems keyboard fsck
+mkinitcpio_modules: []
+mkinitcpio_binaries: []
+mkinitcpio_files: []
+mkinitcpio_hooks:
+  - base
+  - udev
+  - autodetect
+  - modconf
+  - block
+  - filesystems
+  - keyboard
+  - fsck
 mkinitcpio_compression: ''
-mkinitcpio_compression_options: ''
+mkinitcpio_compression_options: []
