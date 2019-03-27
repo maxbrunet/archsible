@@ -21,4 +21,4 @@ output-*/
 
 # End of https://www.gitignore.io/api/ansible,packer,vagrant
 
-ansible/roles/vendor
+roles/vendor

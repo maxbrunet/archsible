@@ -5,7 +5,8 @@
         "iso_checksum_type": "sha1",
         "ssh_timeout": "20m",
         "country": "US",
-        "headless": "true"
+        "headless": "true",
+        "ansible_staging_directory": "/tmp/packer-provisioner-ansible-local"
     },
     "builders": [
         {
@@ -16,7 +17,7 @@
             "iso_interface": "sata",
             "guest_os_type": "ArchLinux_64",
             "guest_additions_mode": "disable",
-            "http_directory": "srv",
+            "http_directory": "packer_http",
             "boot_wait": "5s",
             "boot_command": [
                 "<enter><wait10><wait10><wait10><wait10>",
@@ -61,8 +62,29 @@
                 "echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist",
                 "pacman -Sy --noconfirm git python-pip",
                 "pip install -r \"http://${PACKER_HTTP_ADDR}/requirements.txt\"",
-                "curl \"${PACKER_HTTP_ADDR}/poweroff.timer\" -o /etc/systemd/system/poweroff.timer"
+                "curl \"${PACKER_HTTP_ADDR}/poweroff.timer\" -o /etc/systemd/system/poweroff.timer",
+                "mkdir -p \"{{ user `ansible_staging_directory` }}\""
             ]
+        },
+        {
+            "type": "file",
+            "source": "ansible.cfg",
+            "destination": "{{ user `ansible_staging_directory` }}/"
+        },
+        {
+            "type": "file",
+            "source": "archsible.yml",
+            "destination": "{{ user `ansible_staging_directory` }}/"
+        },
+        {
+            "type": "file",
+            "source": "group_vars",
+            "destination": "{{ user `ansible_staging_directory` }}/"
+        },
+        {
+            "type": "file",
+            "source": "roles",
+            "destination": "{{ user `ansible_staging_directory` }}/"
         },
         {
             "type": "ansible-local",
@@ -72,9 +94,9 @@
                 "country={{ user `country` }}",
                 "-vvv"
             ],
-            "playbook_file": "ansible/bootstrap.yml",
-            "playbook_dir": "ansible/",
-            "galaxy_file": "requirements.yml"
+            "playbook_file": "bootstrap.yml",
+            "galaxy_file": "requirements.yml",
+            "staging_directory": "{{ user `ansible_staging_directory` }}"
         }
     ],
     "post-processors": [
