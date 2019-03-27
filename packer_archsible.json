@@ -20,7 +20,7 @@
             "boot_wait": "5s",
             "boot_command": [
                 "<enter><wait10><wait10><wait10><wait10>",
-                "curl -O {{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh<enter><wait>",
+                "curl -O \"{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh\"<enter><wait>",
                 "sh enable-ssh.sh<enter>"
             ],
             "memory": 1024,
@@ -34,13 +34,13 @@
             "vboxmanage": [
                 [
                     "modifyvm",
-                    "{{.Name}}",
+                    "{{ .Name }}",
                     "--firmware",
                     "efi"
                 ],
                 [
                     "storageattach",
-                    "{{.Name}}",
+                    "{{ .Name }}",
                     "--storagectl",
                     "SATA Controller",
                     "--port",
@@ -60,8 +60,8 @@
             "inline": [
                 "echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist",
                 "pacman -Sy --noconfirm git python-pip",
-                "pip install -r http://${PACKER_HTTP_ADDR}/requirements.txt",
-                "curl ${PACKER_HTTP_ADDR}/poweroff.timer -o /etc/systemd/system/poweroff.timer"
+                "pip install -r \"http://${PACKER_HTTP_ADDR}/requirements.txt\"",
+                "curl \"${PACKER_HTTP_ADDR}/poweroff.timer\" -o /etc/systemd/system/poweroff.timer"
             ]
         },
         {

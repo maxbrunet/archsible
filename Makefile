@@ -1,7 +1,9 @@
+SHELL := /usr/bin/env bash
+
 all: archsible.box
 
-%.box: %.json
-	@packer build -on-error=ask $<
+%.box: packer_%.yaml
+	@packer build -on-error=ask <(scripts/yaml2json.rb < $<)
 
 .PHONY: vm
 vm:
