@@ -1,8 +1,8 @@
 SHELL := /usr/bin/env bash
 
-all: archsible.box
+all: boxes/archsible.box
 
-%.box: packer_%.yaml
+boxes/%.box: packer/%.yaml
 	@packer build -on-error=ask <(scripts/yaml2json.rb < $<)
 
 .PHONY: vm
@@ -15,5 +15,5 @@ clean:
 	@vagrant destroy
 	@vagrant box remove archsible || true
 	@mkdir archives || true
-	@echo 'Moving box to archives...'
-	@mv archsible.box archives/archsible_$$(date +%Y%m%d%H%M).box
+	@echo 'Timestamping box...'
+	@mv boxes/archsible.box boxes/archsible_$$(date +%Y%m%d%H%M).box

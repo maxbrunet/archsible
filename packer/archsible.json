@@ -17,7 +17,7 @@
             "iso_interface": "sata",
             "guest_os_type": "ArchLinux_64",
             "guest_additions_mode": "disable",
-            "http_directory": "packer_http",
+            "http_directory": "packer/http",
             "boot_wait": "5s",
             "boot_command": [
                 "<enter><wait10><wait10><wait10><wait10>",
@@ -102,7 +102,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "archsible.box"
+            "output": "boxes/archsible.box"
         }
     ]
 }
