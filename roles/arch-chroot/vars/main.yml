@@ -36,7 +36,10 @@ _chroot_maybe_mnt:
     path: /sys/firmware/efi/efivars
     fstype: efivarfs
     opts: nosuid,noexec,nodev
-    when: '{{ efivars_file.stat.exists }}'
+  - src: /run/lvm
+    path: /run/lvm
+    fstype: none
+    opts: bind
 
 _chroot_mnt_resolvconf:
   - src: /etc/resolv.conf

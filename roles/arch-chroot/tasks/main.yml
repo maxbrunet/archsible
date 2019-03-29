@@ -12,10 +12,13 @@
   loop_control:
     label: '{{ item.path }}'
 
-- name: Stat target /sys/firmware/efi/efivars
+- name: Stat maybe mounts
   stat:
-    path: '{{ chroot_dir }}/sys/firmware/efi/efivars'
-  register: efivars_file
+    path: '{{ item.path }}'
+  register: _chroot_stat
+  with_items: '{{ _chroot_maybe_mnt }}'
+  loop_control:
+    label: '{{ item.path }}'
 
 - name: Maybe mount filesystems
   mount:
@@ -24,7 +27,9 @@
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
     state: mounted
-  when: item.when
+  when: '{{ (
+    _chroot_stat.results | selectattr("item.path", "eq", item.path) | first
+  ).stat.exists }}'
   with_items: '{{ _chroot_maybe_mnt }}'
   loop_control:
     label: '{{ item.path }}'
