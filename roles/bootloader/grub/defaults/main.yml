@@ -5,3 +5,24 @@ grub_target: x86_64-efi
 grub_efi_directory: /boot/efi
 grub_bootloader_id: GRUB
 grub_config_path: /boot/grub/grub.cfg
+
+grub_default: 0
+grub_timeout: 5
+grub_distributor: Arch
+grub_cmdline_linux_default: quiet
+grub_cmdline_linux: ''
+grub_preload_modules: part_gpt part_msdos
+#grub_enable_cryptodisk: 'y'
+grub_timeout_style: menu
+grub_terminal_input: console
+#grub_terminal_output: console
+grub_gfxmode: auto
+grub_gfxpayload_linux: keep
+#grub_disable_linux_uuid: 'true'
+grub_disable_recovery: 'true'
+#grub_color_normal: light-blue/black
+#grub_color_highlight: light-cyan/blue
+#grub_background: /path/to/wallpaper
+#grub_theme: /path/to/gfxtheme
+#grub_init_tune: 480 440 1
+#grub_savedefault: 'true'

@@ -32,6 +32,10 @@
   filesystem:
     fstype: '{{ item.fstype }}'
     dev: '{{ _partition_dev }}'
+  when:
+    - item.fstype is defined
+    - item.fstype != 'none'
+    - item.fstype is not none
   with_items: '{{ partition_list }}'
   loop_control:
     label: '{{ _partition_dev }}'

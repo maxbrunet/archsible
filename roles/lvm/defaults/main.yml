@@ -3,7 +3,7 @@
 
 lvm_vgs:
   - vg: system
-    pvs: /dev/disk/by-partlabel/Primary
+    pvs: /dev/mapper/cryptlvm
 
 lvm_lvs:
   - lv: root

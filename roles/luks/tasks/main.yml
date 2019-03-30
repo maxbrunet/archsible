@@ -1,0 +1,134 @@
+---
+# tasks file for luks
+
+- name: Ensure cryptsetup is installed
+  pacman:
+    name: cryptsetup
+
+- name: Check if volumes are LUKS
+  command: cryptsetup isLuks '{{ item.device }}'
+  register: _cryptsetup_islucks
+  failed_when: false
+  changed_when: false
+  check_mode: false
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.device }}'
+
+- name: Format LUKS volumes
+  # Use shell with pipe, because command's stdin arg
+  # seems to alter the passphrase
+  shell: printf '{{ item.passphrase }}' | cryptsetup luksFormat
+    --batch-mode
+    --type luks1
+    --key-file -
+    '{{ item.device }}'
+  when: |
+    (
+      _cryptsetup_islucks.results
+        | selectattr('item.device', 'eq', item.device)
+        | first
+    ).rc != 0
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.device }}'
+
+- name: Check if LUKS volumes are active
+  command: cryptsetup status '{{ item.name }}'
+  register: _cryptsetup_isactive
+  failed_when: false
+  changed_when: false
+  check_mode: false
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.name }}'
+
+- name: Open LUKS volumes
+  # Use shell with pipe, because command's stdin arg
+  # seems to alter the passphrase
+  shell: printf '{{ item.passphrase }}' | cryptsetup open
+     --key-file -
+     '{{ item.device }}'
+     '{{ item.name }}'
+  when: |
+    (
+      _cryptsetup_isactive.results
+        | selectattr('item.name', 'eq', item.name)
+        | first
+    ).rc != 0
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.device }}'
+
+- name: Write keys down
+  copy:
+    content: '{{ item.passphrase }}'
+    dest: '/root/{{ item.name }}.key'
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.device }}'
+
+- name: Update /etc/crypttab
+  crypttab:
+    backing_device: '{{ item.device | default(omit) }}'
+    name: '{{ item.name }}'
+    password: '{{ item.password | default(omit) }}'
+    opts: '{{ item.opts | default(omit) }}'
+    state: present
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.name }}'
+
+- name: Generate keyfile
+  command: dd bs=512 count=4 iflag=fullblock
+    if=/dev/random
+    of='{{ item.keyfile }}'
+  args:
+    creates: '{{ item.keyfile }}'
+  when: item.keyfile is defined
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.keyfile }}'
+
+- name: Set keyfile permissions
+  file:
+    path: '{{ item.keyfile }}'
+    owner: '{{ item.keyfile_user | default(omit) }}'
+    group: '{{ item.keyfile_group | default(omit) }}'
+    mode: '{{ item.keyfile_mode | default(omit) }}'
+  when: item.keyfile is defined
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.keyfile }}'
+
+- name: Check if keys are already present in LUKS volumes
+  command: cryptsetup open
+     --key-file '{{ item.keyfile }}'
+     --test-passphrase
+     '{{ item.device }}'
+  register: _cryptsetup_haskey
+  failed_when: false
+  changed_when: false
+  check_mode: false
+  when: item.keyfile is defined
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.device }}'
+
+- name: Add key to LUKS volumes
+  # Use shell with pipe, because command's stdin arg
+  # seems to alter the passphrase
+  shell: printf '{{ item.passphrase }}' | cryptsetup luksAddKey
+    --key-file -
+    '{{ item.device }}'
+    '{{ item.keyfile }}'
+  when:
+    - item.keyfile is defined
+    - (
+        _cryptsetup_haskey.results
+          | selectattr('item.device', 'eq', item.device)
+          | first
+      ).rc != 0
+  with_items: '{{ luks_volumes }}'
+  loop_control:
+    label: '{{ item.keyfile }}'

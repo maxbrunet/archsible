@@ -26,4 +26,4 @@ partition_list:
       - lvm
     part_start: 550MiB
     part_end: '{{ partition_end }}'
-    fstype: lvm
+    fstype: none
