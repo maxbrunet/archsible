@@ -1,0 +1,39 @@
+---
+# tasks file for grub
+
+- name: Ensure GRUB packages are installed
+  pacman:
+    name:
+      - grub
+      - efibootmgr
+
+- name: Install Intel microcode
+  pacman:
+    name: intel-ucode
+  when: ansible_processor | map('search', 'Intel')
+
+- name: Ensure EFI directory exits
+  file:
+    path: '{{ grub_efi_directory }}'
+    state: directory
+
+- name: Install GRUB
+  command: >
+    grub-install
+      --target '{{ grub_target }}'
+      --efi-directory '{{ grub_efi_directory }}'
+      --bootloader-id '{{ grub_bootloader_id }}'
+      --removable
+  args:
+    creates: '{{ grub_efi_directory }}/EFI/{{ grub_bootloader_id }}/grubx64.efi'
+
+- name: Generate GRUB configuration
+  command: grub-mkconfig
+  register: _grub_config
+  changed_when: false
+  check_mode: false
+
+- name: Write GRUB configuration
+  copy:
+    content: '{{ _grub_config.stdout }}'
+    dest: '{{ grub_config_path }}'

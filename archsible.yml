@@ -3,7 +3,6 @@
   roles:
     - role: mount
     - role: mirrorlist
-    - role: bootloader/systemd-boot
     - role: locales
     - role: network/connman
     - name: VirtualBox hardware
@@ -11,3 +10,4 @@
       when: ansible_product_name == "VirtualBox"
     - role: vagrant
     - role: mkinitcpio
+    - role: bootloader/grub

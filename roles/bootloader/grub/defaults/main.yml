@@ -1,0 +1,7 @@
+---
+# defaults file for grub
+
+grub_target: x86_64-efi
+grub_efi_directory: /boot/efi
+grub_bootloader_id: GRUB
+grub_config_path: /boot/grub/grub.cfg

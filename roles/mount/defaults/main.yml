@@ -4,7 +4,7 @@ mount_base_mountpoint: ''
 
 mount_list:
   - src: PARTLABEL=EFI
-    mountpoint: /boot
+    mountpoint: /boot/efi
     fstype: vfat
     opts: defaults
   - src: /dev/system/root
