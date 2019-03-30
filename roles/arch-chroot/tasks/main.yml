@@ -34,17 +34,6 @@
   loop_control:
     label: '{{ item.path }}'
 
-- name: Mount resolv.conf
-  mount:
-    src: '{{ item.src }}'
-    path: '{{ chroot_dir }}{{ item.path }}'
-    fstype: '{{ item.fstype }}'
-    opts: '{{ item.opts }}'
-    state: mounted
-  with_items: '{{ _chroot_mnt_resolvconf }}'
-  loop_control:
-    label: '{{ item.path }}'
-
 - name: Install python in chroot
   command: >
     pacman -S python --noconfirm

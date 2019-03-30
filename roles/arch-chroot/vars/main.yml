@@ -40,8 +40,6 @@ _chroot_maybe_mnt:
     path: /run/lvm
     fstype: none
     opts: bind
-
-_chroot_mnt_resolvconf:
   - src: /etc/resolv.conf
     path: /etc/resolv.conf
     fstype: none
