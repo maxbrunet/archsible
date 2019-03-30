@@ -27,9 +27,10 @@
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
     state: mounted
-  when: '{{ (
-    _chroot_stat.results | selectattr("item.path", "eq", item.path) | first
-  ).stat.exists }}'
+  when: |
+    (
+      _chroot_stat.results | selectattr('item.path', 'eq', item.path) | first
+    ).stat.exists
   with_items: '{{ _chroot_maybe_mnt }}'
   loop_control:
     label: '{{ item.path }}'
