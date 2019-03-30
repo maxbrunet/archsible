@@ -67,11 +67,6 @@
         },
         {
             "type": "file",
-            "source": "group_vars",
-            "destination": "{{ user `ansible_staging_directory` }}/"
-        },
-        {
-            "type": "file",
             "source": "roles",
             "destination": "{{ user `ansible_staging_directory` }}/"
         },
@@ -85,6 +80,7 @@
             ],
             "playbook_file": "bootstrap.yml",
             "galaxy_file": "requirements.yml",
+            "group_vars": "group_vars",
             "staging_directory": "{{ user `ansible_staging_directory` }}"
         }
     ],

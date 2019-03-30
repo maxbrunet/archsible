@@ -51,9 +51,6 @@ provisioners:
   source: archsible.yml
   destination: '{{ user `ansible_staging_directory` }}/'
 - type: file
-  source: group_vars
-  destination: '{{ user `ansible_staging_directory` }}/'
-- type: file
   source: roles
   destination: '{{ user `ansible_staging_directory` }}/'
 - type: ansible-local
@@ -64,6 +61,7 @@ provisioners:
   - -vvv
   playbook_file: bootstrap.yml
   galaxy_file: requirements.yml
+  group_vars: group_vars
   staging_directory: '{{ user `ansible_staging_directory` }}'
 post-processors:
 - type: vagrant
