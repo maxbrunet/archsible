@@ -14,3 +14,7 @@ lvm_lvs:
     vg: system
     size: 50G
     fstype: xfs
+  - lv: swap
+    vg: system
+    size: 4G
+    fstype: swap

@@ -4,11 +4,25 @@
 - name: Mounting partitions to mountpoint directory
   mount:
     src: "{{ item.src }}"
-    path: "{{ mount_base_mountpoint }}{{ item.mountpoint }}"
+    path: "{{ _mount_path }}"
     fstype: '{{ item.fstype }}'
     opts: '{{ item.opts }}'
-    state: mounted
+    state: '{{ item.state | default("mounted") }}'
+  vars:
+    _mount_path:
+      '{% if item.no_base is defined and item.no_base -%}
+         {{ item.mountpoint }}
+       {%- else -%}
+         {{ mount_base_mountpoint }}{{ item.mountpoint }}
+       {%- endif %}'
   with_items:
     '{{ mount_list | sort(attribute="mountpoint") }}'
   loop_control:
     label: '{{ item.src }}'
+
+- name: Enable all swap partitions from /etc/fstab
+  command: swapon --all
+  when:
+    # If there are multiple swap partitions and some are already enabled,
+    # might not enable additional partitions
+    - ansible_swaptotal_mb < 1

@@ -15,6 +15,12 @@ mount_list:
     mountpoint: /home
     fstype: xfs
     opts: defaults
+  - src: /dev/system/swap
+    mountpoint: swap
+    fstype: swap
+    opts: defaults
+    no_base: true
+    state: present
   - src: /dev/system/root
     mountpoint: /.snapshots
     fstype: btrfs
