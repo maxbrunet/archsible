@@ -2,6 +2,8 @@
 # tasks file for vagrant
 - name: Generate password
   command: openssl passwd -crypt 'vagrant'
+  changed_when: false
+  check_mode: false
   register: _vagrant_password
   when: _vagrant_password is not defined
 
