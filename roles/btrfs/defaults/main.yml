@@ -10,6 +10,5 @@ btrfs_volumes:
       - path: '@opt'
       - path: '@root'
       - path: '@srv'
-      - path: '@tmp'
       - path: '@usr-local'
       - path: '@var'

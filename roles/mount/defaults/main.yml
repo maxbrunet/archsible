@@ -38,10 +38,6 @@ mount_list:
     fstype: btrfs
     opts: subvol=@srv
   - src: /dev/system/root
-    mountpoint: /tmp
-    fstype: btrfs
-    opts: subvol=@tmp
-  - src: /dev/system/root
     mountpoint: /usr/local
     fstype: btrfs
     opts: subvol=@usr-local
