@@ -55,4 +55,8 @@ galaxy_info:
 dependencies:
   - role: filesystems-progs
     vars:
-      filesystems_progs: '{{ partition_list | map(attribute="fstype") | unique }}'
+      filesystems_progs: '{{
+        partition_volumes
+          | map(attribute="partitions") | flatten(levels=1)
+          | map(attribute="fstype") | unique
+      }}'

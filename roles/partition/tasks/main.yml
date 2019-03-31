@@ -5,28 +5,9 @@
   pacman:
     name: parted
 
-- name: Create partitions
-  parted:
-    name: '{{ item.name | default() }}'
-    device: '{{ item.device }}'
-    number: '{{ item.number }}'
-    flags: '{{ item.flags | default([]) }}'
-    part_start: '{{ item.part_start }}'
-    part_end: '{{ item.part_end }}'
-    label: '{{ partition_label }}'
-    state: present
-  with_items: '{{ partition_list }}'
+- name: Partition volumes
+  include_tasks: partition.yml
+  with_items: '{{ partition_volumes }}'
   loop_control:
-    label: '{{ _partition_dev }}'
-
-- name: Create filesystems
-  filesystem:
-    fstype: '{{ item.fstype }}'
-    dev: '{{ _partition_dev }}'
-  when:
-    - item.fstype is defined
-    - item.fstype != 'none'
-    - item.fstype is not none
-  with_items: '{{ partition_list }}'
-  loop_control:
-    label: '{{ _partition_dev }}'
+    loop_var: volume
+    label: '{{ volume.device }}'

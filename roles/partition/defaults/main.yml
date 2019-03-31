@@ -1,5 +1,4 @@
 ---
 # defaults file for partition
-partition_label: gpt
 
-partition_list: []
+partition_volumes: []
