@@ -1,7 +1,9 @@
 ---
 - hosts: all
   roles:
+    - role: partition
     - role: luks
+    - role: lvm
     - role: mount
     - role: mirrorlist
     - role: locales
