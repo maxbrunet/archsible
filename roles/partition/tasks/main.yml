@@ -5,15 +5,6 @@
   pacman:
     name: parted
 
-- name: Remove all partitions from disk
-  parted:
-    device: '{{ partition_device }}'
-    number: '{{ partition_device | regex_search("^.*?(\d+)$") }}'
-    state: absent
-  when: partition_reset
-  with_items:
-    '{{ ansible_devices[( partition_device | basename )].partitions }}'
-
 - name: Create partitions
   parted:
     name: '{{ item.name | default() }}'

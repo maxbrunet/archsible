@@ -1,7 +1,6 @@
 ---
 # defaults file for partition
 partition_device: /dev/sda
-partition_reset: false
 partition_label: gpt
 
 # Default: use full disk to install Arch Linux
