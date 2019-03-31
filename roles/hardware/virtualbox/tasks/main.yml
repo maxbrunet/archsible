@@ -5,12 +5,11 @@
 # https://wiki.archlinux.org/index.php/VirtualBox
 - name: Install VirtualBox Guest Additions
   pacman:
-    name: '{{ item }}'
-  with_items:
-    - linux-headers
-    - virtualbox-guest-utils
-    - virtualbox-guest-modules-arch
-    - nfs-utils
+    name:
+      - linux-headers
+      - virtualbox-guest-utils
+      - virtualbox-guest-modules-arch
+      - nfs-utils
 
 - name: Enable VB guest services
   service:
