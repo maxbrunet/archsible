@@ -1,14 +1,4 @@
 ---
 # defaults file for btrfs
 
-btrfs_volumes:
-  /dev/system/root:
-    default: '@'
-    subvolumes:
-      - path: '@'
-      - path: '@.snapshots'
-      - path: '@opt'
-      - path: '@root'
-      - path: '@srv'
-      - path: '@usr-local'
-      - path: '@var'
+btrfs_volumes: {}

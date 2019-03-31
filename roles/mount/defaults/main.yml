@@ -2,46 +2,4 @@
 # defaults file for mount
 mount_base_mountpoint: ''
 
-mount_list:
-  - src: PARTLABEL=EFI
-    mountpoint: /boot/efi
-    fstype: vfat
-    opts: defaults
-  - src: /dev/system/root
-    mountpoint: /
-    fstype: btrfs
-    opts: defaults
-  - src: /dev/system/home
-    mountpoint: /home
-    fstype: xfs
-    opts: defaults
-  - src: /dev/system/swap
-    mountpoint: swap
-    fstype: swap
-    opts: defaults
-    no_base: true
-    state: present
-  - src: /dev/system/root
-    mountpoint: /.snapshots
-    fstype: btrfs
-    opts: subvol=@.snapshots
-  - src: /dev/system/root
-    mountpoint: /opt
-    fstype: btrfs
-    opts: subvol=@opt
-  - src: /dev/system/root
-    mountpoint: /root
-    fstype: btrfs
-    opts: subvol=@root
-  - src: /dev/system/root
-    mountpoint: /srv
-    fstype: btrfs
-    opts: subvol=@srv
-  - src: /dev/system/root
-    mountpoint: /usr/local
-    fstype: btrfs
-    opts: subvol=@usr-local
-  - src: /dev/system/root
-    mountpoint: /var
-    fstype: btrfs
-    opts: subvol=@var
+mount_list: []

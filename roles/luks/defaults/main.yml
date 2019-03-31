@@ -1,9 +1,4 @@
 ---
 # defaults file for luks
 
-luks_volumes:
-  - device: /dev/disk/by-partlabel/Primary
-    name: cryptlvm
-    passphrase: vagrant
-    keyfile: /root/cryptlvm.keyfile
-    keyfile_mode: 0000
+luks_volumes: {}

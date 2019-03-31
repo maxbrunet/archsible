@@ -1,20 +1,6 @@
 ---
 # defaults file for lvm
 
-lvm_vgs:
-  - vg: system
-    pvs: /dev/mapper/cryptlvm
+lvm_vgs: []
 
-lvm_lvs:
-  - lv: root
-    vg: system
-    size: 40G
-    fstype: btrfs
-  - lv: home
-    vg: system
-    size: 50G
-    fstype: xfs
-  - lv: swap
-    vg: system
-    size: 4G
-    fstype: swap
+lvm_lvs: []

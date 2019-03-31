@@ -10,8 +10,6 @@ None
 
 | Name                  | Default    | Description                         |
 | --------------------- | ---------- | ----------------------------------- |
-| `partition_device`    | `/dev/sda` | Device to partition and use as root |
-| `partition_reset`     | `false`    | Wipe existing partition             |
 | `partition_label`     | `gpt`      | Partition table type                |
 | `partition_list`      | `Map<name, device, number, flags, part_start, part_end, fstype>` | Map of partitions |
 

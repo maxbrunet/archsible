@@ -1,0 +1,128 @@
+---
+
+partition_device: /dev/sda
+partition_label: gpt
+
+# Default: use full disk to install Arch Linux
+# and assume you use an SSD and want to over-provision by 10%
+partition_start: 0%
+partition_end: 90%
+
+partition_list:
+  - name: EFI
+    device: '{{ partition_device }}'
+    number: 1
+    flags:
+      - boot
+      - esp
+    part_start: '{{ partition_start }}'
+    part_end: 550MiB
+    fstype: vfat
+  - name: Primary
+    device: '{{ partition_device }}'
+    number: 2
+    flags:
+      - lvm
+    part_start: 550MiB
+    part_end: '{{ partition_end }}'
+    fstype: none
+
+luks_volumes:
+  - device: /dev/disk/by-partlabel/Primary
+    name: cryptlvm
+    passphrase: vagrant
+    keyfile: /root/cryptlvm.keyfile
+    keyfile_mode: 0000
+
+lvm_vgs:
+  - vg: system
+    pvs: /dev/mapper/cryptlvm
+
+lvm_lvs:
+  - lv: root
+    vg: system
+    size: 40G
+    fstype: btrfs
+  - lv: home
+    vg: system
+    size: 50G
+    fstype: xfs
+  - lv: swap
+    vg: system
+    size: 4G
+    fstype: swap
+
+btrfs_volumes:
+  /dev/system/root:
+    default: '@'
+    subvolumes:
+      - path: '@'
+      - path: '@.snapshots'
+      - path: '@opt'
+      - path: '@root'
+      - path: '@srv'
+      - path: '@usr-local'
+      - path: '@var'
+
+mount_list:
+  - src: PARTLABEL=EFI
+    mountpoint: /boot/efi
+    fstype: vfat
+    opts: defaults
+  - src: /dev/system/root
+    mountpoint: /
+    fstype: btrfs
+    opts: defaults
+  - src: /dev/system/home
+    mountpoint: /home
+    fstype: xfs
+    opts: defaults
+  - src: /dev/system/swap
+    mountpoint: swap
+    fstype: swap
+    opts: defaults
+    no_base: true
+    state: present
+  - src: /dev/system/root
+    mountpoint: /.snapshots
+    fstype: btrfs
+    opts: subvol=@.snapshots
+  - src: /dev/system/root
+    mountpoint: /opt
+    fstype: btrfs
+    opts: subvol=@opt
+  - src: /dev/system/root
+    mountpoint: /root
+    fstype: btrfs
+    opts: subvol=@root
+  - src: /dev/system/root
+    mountpoint: /srv
+    fstype: btrfs
+    opts: subvol=@srv
+  - src: /dev/system/root
+    mountpoint: /usr/local
+    fstype: btrfs
+    opts: subvol=@usr-local
+  - src: /dev/system/root
+    mountpoint: /var
+    fstype: btrfs
+    opts: subvol=@var
+
+mirrorlist_country: '{{ country | default("US") }}'
+
+mkinitcpio_files:
+  - /root/cryptlvm.keyfile
+mkinitcpio_hooks:
+  - base
+  - udev
+  - autodetect
+  - modconf
+  - block
+  - encrypt
+  - lvm2
+  - filesystems
+  - keyboard
+  - fsck
+
+grub_cmdline_linux: cryptdevice=/dev/disk/by-partlabel/Primary:cryptlvm cryptkey=rootfs:/root/cryptlvm.keyfile
+grub_enable_cryptodisk: y
