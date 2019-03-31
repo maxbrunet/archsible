@@ -2,7 +2,7 @@
 # defautls file for connman
 connman_conf_path: /etc/connman/main.conf
 connman_conf:
-  - section: general
+  - section: General
     settings:
       # https://wiki.archlinux.org/index.php/ConnMan#Avoid_changing_the_hostname
       - option: AllowHostnameUpdates
