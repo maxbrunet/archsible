@@ -40,9 +40,7 @@
     path: /etc/locale.gen
     regexp: '#{{ locales_language }}'
     replace: '{{ locales_language }}'
-
-- name: Generate locale
-  command: locale-gen
+  notify: Generate locale
 
 - name: Set LANG
   copy:
