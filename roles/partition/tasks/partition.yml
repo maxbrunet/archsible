@@ -1,8 +1,6 @@
 ---
 
-- debug: var=volume
-
-- name: 'Create partitions on {{ volume.device }}'
+- name: '{{ volume.device }} - Create partitions'
   parted:
     name: '{{ item.name | default() }}'
     device: '{{ volume.device }}'
@@ -16,7 +14,7 @@
   loop_control:
     label: '{{ volume.device }}{{ item.number }}'
 
-- name: 'Create filesystems on {{ volume.device }}'
+- name: '{{ volume.device }} - Create filesystems'
   filesystem:
     fstype: '{{ item.fstype }}'
     dev: '{{ volume.device }}{{ item.number }}'
