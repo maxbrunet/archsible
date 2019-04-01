@@ -54,47 +54,47 @@ btrfs_volumes:
       - path: '@usr-local'
       - path: '@var'
 
-mount_list:
+mount_volumes:
   - src: PARTLABEL=EFI
-    mountpoint: /boot/efi
+    path: /boot/efi
     fstype: vfat
     opts: defaults
   - src: /dev/system/root
-    mountpoint: /
+    path: /
     fstype: btrfs
     opts: defaults
   - src: /dev/system/home
-    mountpoint: /home
+    path: /home
     fstype: xfs
     opts: defaults
   - src: /dev/system/swap
-    mountpoint: swap
+    path: swap
     fstype: swap
     opts: defaults
     no_base: true
     state: present
   - src: /dev/system/root
-    mountpoint: /.snapshots
+    path: /.snapshots
     fstype: btrfs
     opts: subvol=@.snapshots
   - src: /dev/system/root
-    mountpoint: /opt
+    path: /opt
     fstype: btrfs
     opts: subvol=@opt
   - src: /dev/system/root
-    mountpoint: /root
+    path: /root
     fstype: btrfs
     opts: subvol=@root
   - src: /dev/system/root
-    mountpoint: /srv
+    path: /srv
     fstype: btrfs
     opts: subvol=@srv
   - src: /dev/system/root
-    mountpoint: /usr/local
+    path: /usr/local
     fstype: btrfs
     opts: subvol=@usr-local
   - src: /dev/system/root
-    mountpoint: /var
+    path: /var
     fstype: btrfs
     opts: subvol=@var
 

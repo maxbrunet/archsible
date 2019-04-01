@@ -11,12 +11,11 @@
   vars:
     _mount_path:
       '{% if item.no_base is defined and item.no_base -%}
-         {{ item.mountpoint }}
+         {{ item.path }}
        {%- else -%}
-         {{ mount_base_mountpoint }}{{ item.mountpoint }}
+         {{ mount_base_path }}{{ item.path }}
        {%- endif %}'
-  with_items:
-    '{{ mount_list | sort(attribute="mountpoint") }}'
+  with_items: '{{ mount_volumes | sort(attribute="path") }}'
   loop_control:
     label: '{{ item.src }}'
 

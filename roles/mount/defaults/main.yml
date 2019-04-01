@@ -1,5 +1,5 @@
 ---
 # defaults file for mount
-mount_base_mountpoint: ''
+mount_base_path: ''
 
-mount_list: []
+mount_volumes: []
