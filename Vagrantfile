@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
   # VAGRANT_EXPERIMENTAL="typed_triggers"
   # See: https://www.vagrantup.com/docs/triggers/configuration.html#trigger-types
   config.trigger.after :"VagrantPlugins::ProviderVirtualBox::Action::Boot", type: :action do |trigger|
-    trigger.name = "Type LUKS passphrase"
-    trigger.info = "Waiting 5 seconds for GRUB to load..."
+    trigger.name = "Type the LUKS passphrase"
+    trigger.info = "Waiting 5s for boot..."
     trigger.ruby do |env,machine|
       sleep(5)
       system("VBoxManage controlvm #{machine.id} keyboardputstring 'vagrant\n'")
