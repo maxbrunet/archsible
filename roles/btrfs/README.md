@@ -8,9 +8,9 @@ None
 
 ## Role Variables
 
-| Name                  | Default                       | Description                                                 |
-| --------------------- | ----------------------------- | ----------------------------------------------------------- |
-| `btrfs_volumes`       | `Map<Map<default,subvolumes>` | List of volumes with their subvolumes and default subvolume |
+| Name                  | Default      | Description                                                 |
+| --------------------- | ------------ | ----------------------------------------------------------- |
+| `btrfs_volumes`       | `List<Map<>` | List of volumes with their subvolumes and default subvolume |
 
 ## Dependencies
 

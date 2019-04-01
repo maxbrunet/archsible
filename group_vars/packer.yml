@@ -43,7 +43,7 @@ lvm_volumes:
        fstype: swap
 
 btrfs_volumes:
-  /dev/system/root:
+  - device: /dev/system/root
     default: '@'
     subvolumes:
       - path: '@'

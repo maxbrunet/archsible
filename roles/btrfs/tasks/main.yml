@@ -11,17 +11,19 @@
     prefix: btrfs_
   with_items: '{{ btrfs_volumes }}'
   register: _btrfs_tmpdirs
+  loop_control:
+    loop_var: volume
 
-- name: Mounting BTRFS devices to temporary mountpoint
+- name: Mounting BTRFS devices to temporary mountpoints
   mount:
-    src: "{{ item.item }}"
+    src: "{{ item.volume.device }}"
     path: "{{ item.path }}"
     fstype: btrfs
     opts: subvol=/
     state: mounted
   with_items: '{{ _btrfs_tmpdirs.results }}'
   loop_control:
-    label: '{{ item.item }}'
+    label: '{{ item.volume.device }}'
 
 - name: Create BTRFS subvolumes on each device
   include_tasks: subvolumes.yml
@@ -32,15 +34,14 @@
 - name: Set default BTRFS subvolume
   command: >
     btrfs subvolume
-      set-default '{{ item.path }}/{{ btrfs_volumes[item.item].default }}'
-  when: '"default" in btrfs_volumes[item.item]'
+      set-default '{{ item.path }}/{{ item.volume.default }}'
+  when: item.volume.default is defined
   with_items: '{{ _btrfs_tmpdirs.results }}'
 
-- name: Unmounting BTRFS devices to temporary mountpoint
+- name: Unmounting BTRFS devices from temporary mountpoints
   mount:
-    src: "{{ item.item }}"
     path: "{{ item.path }}"
     state: unmounted
   with_items: '{{ _btrfs_tmpdirs.results }}'
   loop_control:
-    label: '{{ item.item }}'
+    label: '{{ item.volume.device }}'
