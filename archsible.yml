@@ -1,11 +1,11 @@
 ---
 - hosts: all
   roles:
+    - role: mirrorlist
     - role: partition
     - role: luks
     - role: lvm
     - role: mount
-    - role: mirrorlist
     - role: locales
     - role: network/connman
     - name: VirtualBox hardware
