@@ -60,14 +60,6 @@
   loop_control:
     label: '{{ item.device }}'
 
-- name: Write keys down
-  copy:
-    content: '{{ item.passphrase }}'
-    dest: '/root/{{ item.name }}.key'
-  with_items: '{{ luks_volumes }}'
-  loop_control:
-    label: '{{ item.device }}'
-
 - name: Update /etc/crypttab
   crypttab:
     backing_device: '{{ item.device | default(omit) }}'
