@@ -8,10 +8,9 @@ None
 
 ## Role Variables
 
-| Name      | Default                        | Description             |
-| --------- | ------------------------------ | ----------------------- |
-| `lvm_vgs` | `List<Map<vg,pvs>>`            | List of volume groups   |
-| `lvm_lvs` | `List<Map<lv,vg,size,fstype>>` | List of logical volumes |
+| Name          | Default       | Description         |
+| ------------- | ------------- | ------------------- |
+| `lvm_volumes` | `List<Map<>>` | List of LVM volumes |
 
 ## Dependencies
 

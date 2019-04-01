@@ -3,32 +3,15 @@
 
 - name: Create volume groups
   lvg:
-    vg: '{{ item.vg}}'
+    vg: '{{ item.vg }}'
     pvs: '{{ item.pvs }}'
-  with_items: '{{ lvm_vgs }}'
+  with_items: '{{ lvm_volumes }}'
   loop_control:
     label: '{{ item.vg }}'
 
 - name: Create logical volumes
-  lvol:
-    vg: '{{ item.vg }}'
-    lv: '{{ item.lv }}'
-    size: '{{ item.size }}'
-  with_items: '{{ lvm_lvs }}'
+  include_tasks: lv.yml
+  with_items: '{{ lvm_volumes }}'
   loop_control:
-    label: '{{ item.lv }}'
-
-- name: Handle swap filesystems
-  include_tasks: swap.yml
-  when: item.fstype == 'swap'
-  with_items: '{{ lvm_lvs }}'
-
-- name: Create filesystems
-  filesystem:
-    fstype: '{{ item.fstype }}'
-    dev: '/dev/{{ item.vg  }}/{{ item.lv }}'
-  with_items: '{{ lvm_lvs }}'
-  # Swap support will be added in Ansible 2.8
-  when: item.fstype != 'swap'
-  loop_control:
-    label: '{{ item.lv }}'
+    loop_var: volume
+    label: '{{ volume.vg }}'

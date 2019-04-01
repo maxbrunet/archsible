@@ -55,4 +55,8 @@ galaxy_info:
 dependencies:
   - role: filesystems-progs
     vars:
-      filesystems_progs: '{{ lvm_lvs | map(attribute="fstype") | unique }}'
+      filesystems_progs: '{{
+        lvm_volumes
+          | map(attribute="lvs") | flatten(levels=1)
+          | map(attribute="fstype") | unique
+      }}'

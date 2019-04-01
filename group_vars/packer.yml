@@ -28,23 +28,19 @@ luks_volumes:
     keyfile: /root/cryptlvm.keyfile
     keyfile_mode: 0000
 
-lvm_vgs:
+lvm_volumes:
   - vg: system
     pvs: /dev/mapper/cryptlvm
-
-lvm_lvs:
-  - lv: root
-    vg: system
-    size: 40G
-    fstype: btrfs
-  - lv: home
-    vg: system
-    size: 50G
-    fstype: xfs
-  - lv: swap
-    vg: system
-    size: 4G
-    fstype: swap
+    lvs:
+     - lv: root
+       size: 40G
+       fstype: btrfs
+     - lv: home
+       size: 50G
+       fstype: xfs
+     - lv: swap
+       size: 4G
+       fstype: swap
 
 btrfs_volumes:
   /dev/system/root:
