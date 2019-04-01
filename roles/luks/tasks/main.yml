@@ -18,20 +18,15 @@
 - name: Format LUKS volumes
   # Use shell with pipe, because command's stdin arg
   # seems to alter the passphrase
-  shell: printf '{{ item.passphrase }}' | cryptsetup luksFormat
+  shell: printf '{{ item.item.passphrase }}' | cryptsetup luksFormat
     --batch-mode
     --type luks1
     --key-file -
-    '{{ item.device }}'
-  when: |
-    (
-      _cryptsetup_islucks.results
-        | selectattr('item.device', 'eq', item.device)
-        | first
-    ).rc != 0
-  with_items: '{{ luks_volumes }}'
+    '{{ item.item.device }}'
+  when: item.rc != 0
+  with_items: '{{ _cryptsetup_islucks.results }}'
   loop_control:
-    label: '{{ item.device }}'
+    label: '{{ item.item.device }}'
 
 - name: Check if LUKS volumes are active
   command: cryptsetup status '{{ item.name }}'
@@ -46,19 +41,14 @@
 - name: Open LUKS volumes
   # Use shell with pipe, because command's stdin arg
   # seems to alter the passphrase
-  shell: printf '{{ item.passphrase }}' | cryptsetup open
+  shell: printf '{{ item.item.passphrase }}' | cryptsetup open
      --key-file -
-     '{{ item.device }}'
-     '{{ item.name }}'
-  when: |
-    (
-      _cryptsetup_isactive.results
-        | selectattr('item.name', 'eq', item.name)
-        | first
-    ).rc != 0
-  with_items: '{{ luks_volumes }}'
+     '{{ item.item.device }}'
+     '{{ item.item.name }}'
+  when: item.rc != 0
+  with_items: '{{ _cryptsetup_isactive.results }}'
   loop_control:
-    label: '{{ item.device }}'
+    label: '{{ item.item.device }}'
 
 - name: Update /etc/crypttab
   crypttab:
@@ -110,17 +100,13 @@
 - name: Add key to LUKS volumes
   # Use shell with pipe, because command's stdin arg
   # seems to alter the passphrase
-  shell: printf '{{ item.passphrase }}' | cryptsetup luksAddKey
+  shell: printf '{{ item.item.passphrase }}' | cryptsetup luksAddKey
     --key-file -
-    '{{ item.device }}'
-    '{{ item.keyfile }}'
+    '{{ item.item.device }}'
+    '{{ item.item.keyfile }}'
   when:
-    - item.keyfile is defined
-    - (
-        _cryptsetup_haskey.results
-          | selectattr('item.device', 'eq', item.device)
-          | first
-      ).rc != 0
-  with_items: '{{ luks_volumes }}'
+    - item.item.keyfile is defined
+    - item.rc != 0
+  with_items: '{{ _cryptsetup_haskey.results }}'
   loop_control:
-    label: '{{ item.keyfile }}'
+    label: '{{ item.item.keyfile }}'

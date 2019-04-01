@@ -15,25 +15,22 @@
 - name: Stat maybe mounts
   stat:
     path: '{{ item.path }}'
-  register: _chroot_stat
+  register: _chroot_maybe_stat
   with_items: '{{ _chroot_maybe_mnt }}'
   loop_control:
     label: '{{ item.path }}'
 
 - name: Maybe mount filesystems
   mount:
-    src: '{{ item.src }}'
-    path: '{{ chroot_dir }}{{ item.path }}'
-    fstype: '{{ item.fstype }}'
-    opts: '{{ item.opts }}'
+    src: '{{ item.item.src }}'
+    path: '{{ chroot_dir }}{{ item.item.path }}'
+    fstype: '{{ item.item.fstype }}'
+    opts: '{{ item.item.opts }}'
     state: mounted
-  when: |
-    (
-      _chroot_stat.results | selectattr('item.path', 'eq', item.path) | first
-    ).stat.exists
-  with_items: '{{ _chroot_maybe_mnt }}'
+  when: item.stat.exists
+  with_items: '{{ _chroot_maybe_stat.results }}'
   loop_control:
-    label: '{{ item.path }}'
+    label: '{{ item.item.path }}'
 
 - name: Install python in chroot
   command: >
