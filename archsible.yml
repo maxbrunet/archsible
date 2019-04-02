@@ -1,0 +1,16 @@
+---
+- hosts: all
+  roles:
+    - role: mirrorlist
+    - role: partition
+    - role: luks
+    - role: lvm
+    - role: mount
+    - role: locales
+    - role: network/connman
+    - name: VirtualBox hardware
+      role: hardware/virtualbox
+      when: ansible_product_name == "VirtualBox"
+    - role: vagrant
+    - role: mkinitcpio
+    - role: bootloader/grub

@@ -1,0 +1,49 @@
+---
+# tasks file for locales
+- name: Set hostname
+  copy:
+    content: |
+      {{ locales_hostname }}
+    dest: /etc/hostname
+
+- name: Add local hostname to hosts file
+  lineinfile:
+    path: /etc/hosts
+    regexp: '{{ item.ip }}\s+{{ item.hostnames | join("\s+") }}'
+    line: '{{ item.ip }}    {{ item.hostnames | join("    ") }}'
+  with_items:
+    - ip: 127.0.0.1
+      hostnames:
+        - localhost
+    - ip: ::1
+      hostnames:
+        - localhost
+    - ip: 127.0.1.1
+      hostnames:
+        - '{{ locales_hostname }}.localdomain'
+        - '{{ locales_hostname }}'
+
+- name: Set timezone
+  file:
+    path: /etc/localtime
+    src: '/usr/share/zoneinfo/{{ locales_timezone }}'
+    state: link
+
+- name: Set keymap
+  copy:
+    content: |
+      KEYMAP={{ locales_keymap }}
+    dest: /etc/vconsole.conf
+
+- name: Uncomment locale
+  replace:
+    path: /etc/locale.gen
+    regexp: '#{{ locales_language }}'
+    replace: '{{ locales_language }}'
+  notify: Generate locale
+
+- name: Set LANG
+  copy:
+    content: |
+      LANG={{ locales_language }}
+    dest: /etc/locale.conf

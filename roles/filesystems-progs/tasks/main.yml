@@ -1,0 +1,8 @@
+---
+# tasks file for filesystems-progs
+
+- name: Ensure filesystems utilities are installed
+  pacman:
+    name: '{{ _filesystems_progs[item] }}'
+  when: item in _filesystems_progs
+  with_items: '{{ filesystems_progs }}'

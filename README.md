@@ -26,6 +26,7 @@ git clone https://github.com/maxbrunet/archsible.git
 pacman -Sy python-pip
 cd archsible
 pip install -r requirements.txt
+ansible-galaxy install -r requirements.yml -p roles/vendor
 ```
 
 * Use the Ansible variables to configure Archsible to suit your needs
@@ -33,7 +34,6 @@ pip install -r requirements.txt
 * Run the boostrap playbook
 
 ```shell
-cd ansible
 ansible-playbook --inventory localhost, bootstrap.yml
 ```
 
@@ -42,7 +42,6 @@ ansible-playbook --inventory localhost, bootstrap.yml
 Once your Arch linux installation is up and running, make regular changes through Ansible by editing the playbook, roles and variables and apply them by using directly `archsible.yml`.
 
 ```shell
-cd ansible
 ansible-playbook --inventory localhost, archsible.yml
 ```
 
@@ -54,14 +53,14 @@ ansible-playbook --inventory localhost, archsible.yml
   * [VirtalBox](https://www.virtualbox.org)
 * Build Vagrant box
 
-```shell
-packer build archsible.json
+```bash
+packer build <(scripts/yaml2json.rb < packer/archsible.yaml)
 ```
 
 * Create virtual machine
 
 ```shell
-vagrant up
+VAGRANT_EXPERIMENTAL="typed_triggers" vagrant up
 ```
 
 * Use `vagrant ssh` to get a shell

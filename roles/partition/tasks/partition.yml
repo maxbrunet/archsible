@@ -1,0 +1,27 @@
+---
+
+- name: '{{ volume.device }} - Create partitions'
+  parted:
+    name: '{{ item.name | default() }}'
+    device: '{{ volume.device }}'
+    number: '{{ item.number }}'
+    flags: '{{ item.flags | default([]) }}'
+    part_start: '{{ item.part_start }}'
+    part_end: '{{ item.part_end }}'
+    label: '{{ volume.label }}'
+    state: present
+  with_items: '{{ volume.partitions }}'
+  loop_control:
+    label: '{{ volume.device }}{{ item.number }}'
+
+- name: '{{ volume.device }} - Create filesystems'
+  filesystem:
+    fstype: '{{ item.fstype }}'
+    dev: '{{ volume.device }}{{ item.number }}'
+  when:
+    - item.fstype is defined
+    - item.fstype != 'none'
+    - item.fstype is not none
+  with_items: '{{ volume.partitions }}'
+  loop_control:
+    label: '{{ volume.device }}{{ item.number }}'

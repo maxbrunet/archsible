@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  tags: always
+  vars:
+    _bootstrap_chroot: '{{ bootstrap_chroot | default("/mnt") }}'
+  roles:
+    - role: mirrorlist
+    - role: partition
+    - role: luks
+    - role: lvm
+    - role: btrfs
+    - role: mount
+      mount_base_path: '{{ _bootstrap_chroot }}'
+    - role: pacstrap
+      pacstrap_root: '{{ _bootstrap_chroot }}'
+    - role: arch-chroot
+      chroot_mnt: '{{ _bootstrap_chroot }}'
+
+- import_playbook: archsible.yml
+  vars:
+    ansible_connection: chroot
+    ansible_host: '{{ bootstrap_chroot | default("/mnt")  }}'

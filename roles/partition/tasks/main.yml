@@ -1,0 +1,13 @@
+---
+# tasks file for partition
+
+- name: Ensure parted is installed
+  pacman:
+    name: parted
+
+- name: Partition volumes
+  include_tasks: partition.yml
+  with_items: '{{ partition_volumes }}'
+  loop_control:
+    loop_var: volume
+    label: '{{ volume.device }}'

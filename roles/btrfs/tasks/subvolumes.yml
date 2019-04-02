@@ -1,0 +1,13 @@
+---
+- name: '{{ _btrfs_mountpoint.volume.device }} - Create BTFS subvolumes'
+  btrfs_subvolume:
+    path: '{{ _btrfs_mountpoint.path }}/{{ item.path }}'
+    qgroups: '{{ item.qgroups | default(omit) }}'
+    commit: '{{ item.commit | default(omit) }}'
+    recursive: '{{ item.recursive | default(omit) }}'
+    state: '{{ item.state | default("present") }}'
+  with_items: '{{ _btrfs_mountpoint.volume.subvolumes }}'
+  # ansible-lint does not find the custom module
+  # https://github.com/ansible/ansible-lint/issues/245
+  tags:
+    - skip_ansible_lint

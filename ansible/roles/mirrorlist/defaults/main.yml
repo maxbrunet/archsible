@@ -1,3 +1,0 @@
----
-# defaults file for mirrorlist
-mirrorlist_country: '{{ country | default("US") }}'

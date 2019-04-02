@@ -1,0 +1,6 @@
+---
+# defaults file for systemd-boot
+systemd_boot_esp: /boot
+systemd_boot_entry: '{{ systemd_boot_esp }}/loader/entries/arch.conf'
+systemd_boot_root: '/dev/system/root'
+systemd_boot_fstype: btrfs

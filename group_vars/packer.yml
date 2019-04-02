@@ -1,0 +1,118 @@
+---
+
+partition_volumes:
+  - device: /dev/sda
+    label: gpt
+    partitions:
+      - name: EFI
+        number: 1
+        flags:
+          - boot
+          - esp
+        part_start: 0%
+        part_end: 550MiB
+        fstype: vfat
+      - name: Primary
+        number: 2
+        flags:
+          - lvm
+        part_start: 550MiB
+        # Assume we use an SSD and want to over-provision by 10%
+        part_end: 90%
+        fstype: none
+
+luks_volumes:
+  - device: /dev/disk/by-partlabel/Primary
+    name: cryptlvm
+    passphrase: vagrant
+    keyfile: /root/cryptlvm.keyfile
+    keyfile_mode: 0000
+
+lvm_volumes:
+  - vg: system
+    pvs: /dev/mapper/cryptlvm
+    lvs:
+     - lv: root
+       size: 40G
+       fstype: btrfs
+     - lv: home
+       size: 50G
+       fstype: xfs
+     - lv: swap
+       size: 4G
+       fstype: swap
+
+btrfs_volumes:
+  - device: /dev/system/root
+    default: '@'
+    subvolumes:
+      - path: '@'
+      - path: '@.snapshots'
+      - path: '@opt'
+      - path: '@root'
+      - path: '@srv'
+      - path: '@usr-local'
+      - path: '@var'
+
+mount_volumes:
+  - src: PARTLABEL=EFI
+    path: /boot/efi
+    fstype: vfat
+    opts: defaults
+  - src: /dev/system/root
+    path: /
+    fstype: btrfs
+    opts: defaults
+  - src: /dev/system/home
+    path: /home
+    fstype: xfs
+    opts: defaults
+  - src: /dev/system/swap
+    path: swap
+    fstype: swap
+    opts: defaults
+    no_base: true
+    state: present
+  - src: /dev/system/root
+    path: /.snapshots
+    fstype: btrfs
+    opts: subvol=@.snapshots
+  - src: /dev/system/root
+    path: /opt
+    fstype: btrfs
+    opts: subvol=@opt
+  - src: /dev/system/root
+    path: /root
+    fstype: btrfs
+    opts: subvol=@root
+  - src: /dev/system/root
+    path: /srv
+    fstype: btrfs
+    opts: subvol=@srv
+  - src: /dev/system/root
+    path: /usr/local
+    fstype: btrfs
+    opts: subvol=@usr-local
+  - src: /dev/system/root
+    path: /var
+    fstype: btrfs
+    opts: subvol=@var
+
+mirrorlist_country: '{{ country | default("US") }}'
+
+mkinitcpio_files:
+  - /root/cryptlvm.keyfile
+mkinitcpio_hooks:
+  - base
+  - udev
+  - autodetect
+  - modconf
+  - block
+  - encrypt
+  - lvm2
+  - filesystems
+  - keyboard
+  - fsck
+
+grub_cmdline_linux: cryptdevice=/dev/disk/by-partlabel/Primary:cryptlvm cryptkey=rootfs:/root/cryptlvm.keyfile
+grub_enable_cryptodisk: y

@@ -1,0 +1,5 @@
+---
+# defaults file for mount
+mount_base_path: ''
+
+mount_volumes: []

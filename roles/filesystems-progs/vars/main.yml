@@ -1,0 +1,14 @@
+---
+# vars file for filesystems-progs
+
+_filesystems_progs:
+  btrfs: btrfs-progs
+  ext2: e2fsprogs
+  ext3: e2fsprogs
+  ext4: e2fsprogs
+  f2fs: f2fs-tools
+  lvm: lvm2
+  reiserfs: reiserfsprogs
+  swap: util-linux
+  vfat: dosfstools
+  xfs: xfsprogs

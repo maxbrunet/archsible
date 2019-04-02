@@ -1,0 +1,4 @@
+---
+# defaults file for btrfs
+
+btrfs_volumes: {}

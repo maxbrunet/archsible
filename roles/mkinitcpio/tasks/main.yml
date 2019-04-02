@@ -1,0 +1,20 @@
+---
+# tasks file for mkinitcpio
+
+- name: Install hooks dependencies
+  pacman:
+    name: '{{ _mkinitcpio_hookdeps[item] }}'
+  when: item in _mkinitcpio_hookdeps
+  with_items: '{{ mkinitcpio_hooks }}'
+
+- name: Create mkinitcpio config
+  template:
+    src: mkinitcpio.conf.j2
+    dest: '{{ mkinitcpio_conf }}'
+  notify:
+    - Refresh initramfs image
+
+- name: Create initramfs image
+  command: '{{ mkinitcpio_command }}'
+  args:
+    creates: '{{ mkinitcpio_image }}'

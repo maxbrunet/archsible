@@ -1,0 +1,17 @@
+---
+# tasks file for lvm
+
+- name: Create volume groups
+  lvg:
+    vg: '{{ item.vg }}'
+    pvs: '{{ item.pvs }}'
+  with_items: '{{ lvm_volumes }}'
+  loop_control:
+    label: '{{ item.vg }}'
+
+- name: Create logical volumes
+  include_tasks: lv.yml
+  with_items: '{{ lvm_volumes }}'
+  loop_control:
+    loop_var: volume
+    label: '{{ volume.vg }}'

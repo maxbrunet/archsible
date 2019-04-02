@@ -1,0 +1,47 @@
+---
+# tasks file for btrfs
+
+- name: Ensure BTRFS tools are installed
+  pacman:
+    name: btrfs-progs
+
+- name: Create temporary mountpoints
+  tempfile:
+    state: directory
+    prefix: btrfs_
+  with_items: '{{ btrfs_volumes }}'
+  register: _btrfs_tmpdirs
+  loop_control:
+    loop_var: volume
+
+- name: Mounting BTRFS devices to temporary mountpoints
+  mount:
+    src: "{{ item.volume.device }}"
+    path: "{{ item.path }}"
+    fstype: btrfs
+    opts: subvol=/
+    state: mounted
+  with_items: '{{ _btrfs_tmpdirs.results }}'
+  loop_control:
+    label: '{{ item.volume.device }}'
+
+- name: Create BTRFS subvolumes on each device
+  include_tasks: subvolumes.yml
+  with_items: '{{ _btrfs_tmpdirs.results }}'
+  loop_control:
+    loop_var: _btrfs_mountpoint
+
+- name: Set default BTRFS subvolume
+  command: >
+    btrfs subvolume
+      set-default '{{ item.path }}/{{ item.volume.default }}'
+  when: item.volume.default is defined
+  with_items: '{{ _btrfs_tmpdirs.results }}'
+
+- name: Unmounting BTRFS devices from temporary mountpoints
+  mount:
+    path: "{{ item.path }}"
+    state: unmounted
+  with_items: '{{ _btrfs_tmpdirs.results }}'
+  loop_control:
+    label: '{{ item.volume.device }}'

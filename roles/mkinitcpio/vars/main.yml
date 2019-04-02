@@ -1,0 +1,13 @@
+---
+# vars file for mkinitcpio
+
+_mkinitcpio_hookdeps:
+  btrfs: btrfs-progs
+  mkinitcpio-nfs-utils: nfs
+  dmraid: dmraid
+  mdadm: mdadm
+  mdadm_udev: mdadm
+  encrypt: cryptsetup
+  sd-encrypt: cryptsetup
+  lvm2: lvm2
+  sd-lvm2: lvm2

@@ -1,0 +1,39 @@
+---
+# tasks file for arch-chroot
+
+- name: Mount api filesystems
+  mount:
+    src: '{{ item.src }}'
+    path: '{{ chroot_dir }}{{ item.path }}'
+    fstype: '{{ item.fstype }}'
+    opts: '{{ item.opts }}'
+    state: mounted
+  with_items: '{{ _chroot_mnt }}'
+  loop_control:
+    label: '{{ item.path }}'
+
+- name: Stat maybe mounts
+  stat:
+    path: '{{ item.path }}'
+  register: _chroot_maybe_stat
+  with_items: '{{ _chroot_maybe_mnt }}'
+  loop_control:
+    label: '{{ item.path }}'
+
+- name: Maybe mount filesystems
+  mount:
+    src: '{{ item.item.src }}'
+    path: '{{ chroot_dir }}{{ item.item.path }}'
+    fstype: '{{ item.item.fstype }}'
+    opts: '{{ item.item.opts }}'
+    state: mounted
+  when: item.stat.exists
+  with_items: '{{ _chroot_maybe_stat.results }}'
+  loop_control:
+    label: '{{ item.item.path }}'
+
+- name: Install python in chroot
+  command: >
+    pacman -S python --noconfirm
+      --root {{ chroot_dir }}
+      --cachedir {{ chroot_dir }}/var/cache/pacman/pkg

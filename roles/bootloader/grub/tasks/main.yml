@@ -1,0 +1,27 @@
+---
+# tasks file for grub
+
+- name: Ensure GRUB packages are installed
+  pacman:
+    name:
+      - grub
+      - efibootmgr
+  notify: Install GRUB
+
+- name: Install Intel microcode
+  pacman:
+    name: intel-ucode
+  when: ansible_processor | map('search', 'Intel')
+  notify: Install GRUB
+
+- name: Ensure EFI directory exits
+  file:
+    path: '{{ grub_efi_directory }}'
+    state: directory
+  notify: Install GRUB
+
+- name: Configure GRUB default settings
+  template:
+    src: grub.default.j2
+    dest: /etc/default/grub
+  notify: Configure GRUB
