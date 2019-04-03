@@ -59,14 +59,17 @@ mount_volumes:
     path: /boot/efi
     fstype: vfat
     opts: defaults
+    #passno: 2
   - src: /dev/system/root
     path: /
     fstype: btrfs
     opts: defaults
+    #passno: 1
   - src: /dev/system/home
     path: /home
     fstype: xfs
     opts: defaults
+    #passno: 2
   - src: /dev/system/swap
     path: swap
     fstype: swap
