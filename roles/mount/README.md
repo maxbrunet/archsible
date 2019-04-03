@@ -11,7 +11,7 @@ None
 | Name                    | Default    | Description                             |
 | ----------------------- | ---------- | --------------------------------------- |
 | `mount_base_mountpoint` |            | Root mountpoint. Empty string for `/`.  |
-| `mount_volumes`         | `Map<src, path, fstype, opts>` | Map of mounts       |
+| `mount_volumes`         | `Map<>`    | Map of mounts                           |
 
 ## Dependencies
 

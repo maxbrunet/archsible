@@ -1,0 +1,9 @@
+---
+# vars file for mount
+
+_mount_path:
+  '{% if item.no_base is defined and item.no_base -%}
+     {{ item.path }}
+   {%- else -%}
+     {{ mount_base_path }}{{ item.path }}
+   {%- endif %}'
