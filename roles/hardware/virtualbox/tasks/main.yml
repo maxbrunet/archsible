@@ -6,7 +6,6 @@
 - name: Install VirtualBox Guest Additions
   pacman:
     name:
-      - linux-headers
       - virtualbox-guest-utils
       - virtualbox-guest-modules-arch
       - nfs-utils
