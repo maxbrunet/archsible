@@ -59,7 +59,7 @@ provisioners:
   - --extra-vars
   - 'country={{ user `country` }}'
   - -vvv
-  inventory_file: 'inventories/packer-{{ build_type }}.ini'
+  inventory_file: 'inventories/packer-{{ build_type }}.yaml'
   playbook_file: bootstrap.yml
   galaxy_file: requirements.yml
   group_vars: group_vars
