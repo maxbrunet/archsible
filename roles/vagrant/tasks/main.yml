@@ -1,12 +1,5 @@
 ---
 # tasks file for vagrant
-- name: Generate password
-  command: openssl passwd -crypt 'vagrant'
-  changed_when: false
-  check_mode: false
-  register: _vagrant_password
-  when: _vagrant_password is not defined
-
 - name: Install sshd
   pacman:
     name: openssh
@@ -17,12 +10,6 @@
     enabled: true
 
 # Vagrant-specific configuration
-- name: Create vagrant user
-  user:
-    name: vagrant
-    password: '{{ _vagrant_password.stdout }}'
-    comment: 'Vagrant User'
-
 - name: Configure sudo for vagrant user
   copy:
     content: |
@@ -37,10 +24,3 @@
     user: vagrant
     state: present
     key: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
-
-- name: Add groups for VirtualBox folder sharing
-  user:
-    name: vagrant
-    groups: vboxsf
-    append: true
-  when: ansible_product_name == "VirtualBox"

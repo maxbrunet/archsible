@@ -120,3 +120,25 @@ mkinitcpio_hooks:
 
 grub_cmdline_linux: cryptdevice=/dev/disk/by-partlabel/Primary:cryptlvm cryptkey=rootfs:/root/cryptlvm.keyfile
 grub_enable_cryptodisk: y
+
+users:
+  - name: vagrant
+    groups: '{{ ["vboxsf"] if ansible_product_name == "VirtualBox" else omit }}'
+    password: '{{ user_password | default("") }}'
+    comment: 'Vagrant User'
+    update_password: on_create
+    shell: /bin/zsh
+
+user_applications:
+  - fzf
+  - tmux
+  - vim
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+
+ansidot_repos:
+  - user: vagrant
+    repo: https://github.com/maxbrunet/dotfiles
+    dest: ~/.dotfiles
+    recursive: true

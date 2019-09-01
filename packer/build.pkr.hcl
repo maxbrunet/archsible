@@ -50,7 +50,9 @@ build {
       "--diff",
       "--extra-vars",
       format("country=%s", var.country),
-      "-vvv"
+      "--extra-vars",
+      format("user_password='%s'", var.user_password),
+      "-vvv",
     ]
     group_vars        = "${path.root}/../group_vars"
     host_vars         = "${path.root}/../host_vars"

@@ -8,3 +8,6 @@ roles:
   - name: maxbrunet.btrfs-subvolume
     src: https://github.com/maxbrunet/ansible-btrfs-subvolume
     version: 4cfea60ac2efd2178a7a6d65afc57ff9822e4fe9
+  - name: maxbrunet.ansidot
+    src: https://github.com/maxbrunet/ansidot
+    version: v1.3.0
