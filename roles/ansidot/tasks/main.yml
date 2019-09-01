@@ -1,0 +1,20 @@
+---
+# tasks file for ansidot
+
+- tags: &tags ansidot
+  block:
+    - name: Ensure Git is installed
+      pacman:
+        name: git
+
+    - name: Install dotfiles for each user
+      include_tasks:
+        file: ansidot.yml
+        apply:
+          tags: *tags
+          become: true
+          become_user: '{{ repo.user }}'
+      with_items: '{{ ansidot_repos }}'
+      loop_control:
+        label: '{{ repo.user }}'
+        loop_var: repo

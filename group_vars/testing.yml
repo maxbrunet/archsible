@@ -104,6 +104,28 @@ mount_volumes:
 
 mirrorlist_country: '{{ country | default("US") }}'
 
+users:
+  - name: vagrant
+    groups: '{{ ["vboxsf"] if ansible_product_name == "VirtualBox" else omit }}'
+    password: '{{ user_password | default("") }}'
+    comment: 'Vagrant User'
+    update_password: on_create
+    shell: /bin/zsh
+
+users_applications:
+  - fzf
+  - tmux
+  - vim
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+
+ansidot_repos:
+  - user: vagrant
+    repo: https://github.com/maxbrunet/dotfiles
+    dest: ~/.dotfiles
+    recursive: true
+
 mkinitcpio_files:
   - /root/cryptlvm.keyfile
 mkinitcpio_hooks:

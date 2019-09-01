@@ -1,0 +1,6 @@
+---
+# defaults file for users
+
+users: {}
+
+users_applications: []

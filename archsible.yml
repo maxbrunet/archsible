@@ -8,6 +8,8 @@
     - role: lvm
     - role: mount
     - role: locales
+    - role: users
+    - role: ansidot
     - role: network/connman
     - name: QEMU hardware
       role: hardware/qemu
