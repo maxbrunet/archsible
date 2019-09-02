@@ -1,6 +1,11 @@
 ---
 # defaults file for pacstrap
 pacstrap_root: /mnt
+pacstrap_host_cache: false
+pacstrap_copy_mirrorlist: true
+pacstrap_copy_keyring: true
+pacstrap_pacman_config: ''
 pacstrap_packages:
   - base
   - base-devel
+  - python

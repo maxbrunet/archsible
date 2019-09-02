@@ -1,6 +1,53 @@
 ---
 # tasks file for pacstrap
-- name: Bootstrap the base installation
-  command: 'pacstrap {{ pacstrap_root }} {{ pacstrap_packages | join(" ") }}'
-  args:
-    creates: '{{ pacstrap_root }}/usr/bin/bash'
+
+- name: Ensure obligatory directories exist
+  file:
+    path: '{{ pacstrap_root }}{{ item.path }}'
+    mode: '{{ item.mode }}'
+    state: directory
+  with_items: '{{ _pacstrap_obligatory_dirs }}'
+
+- name: Stat pacman GPG keyring
+  stat:
+    path: /etc/pacman.d/gnupg
+  register: _pacstrap_gpg_keyring
+  when: pacstrap_copy_keyring
+
+# The copy modules fails on the gpg-agent sockets
+# ("No such device or address")
+# so we use synchronize/rsync
+- name: Copy pacman GPG keyring if exists
+  synchronize:
+    src: /etc/pacman.d/gnupg
+    dest: '{{ pacstrap_root }}/etc/pacman.d/'
+    checksum: true
+    times: false
+  delegate_to: "{{ inventory_hostname }}"
+  when:
+    - pacstrap_copy_keyring
+    - _pacstrap_gpg_keyring.stat.isdir
+
+# FIXME: The module's query_package() function checks for package outside the root,
+# so if it is install outside the chroot, the package will be skipped
+# https://github.com/ansible/ansible/blob/v2.9.9/lib/ansible/modules/packaging/os/pacman.py#L193
+- name: 'Install packages to {{ pacstrap_root }}'
+  pacman:
+    name: '{{ pacstrap_packages }}'
+    extra_args: &extra_args >-
+      --root="{{ pacstrap_root }}"
+      {% if not pacstrap_host_cache -%}
+        --cachedir="{{ pacstrap_root }}/var/cache/pacman/pkg"
+      {%- endif %}
+      {% if pacstrap_pacman_config -%}
+        --config="{{ pacstrap_pacman_config }}"
+      {%- endif %}
+    update_cache: true
+    update_cache_extra_args: *extra_args
+
+- name: Copy mirrorlist
+  copy:
+    src: /etc/pacman.d/mirrorlist
+    dest: '{{ pacstrap_root }}/etc/pacman.d/mirrorlist'
+    remote_src: true
+  when: pacstrap_copy_mirrorlist

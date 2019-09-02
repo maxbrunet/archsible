@@ -1,0 +1,22 @@
+---
+# vars file for pacstrap
+
+_pacstrap_obligatory_dirs:
+  - path: /var/cache/pacman/pkg
+    mode: '0755'
+  - path: /var/lib/pacman
+    mode: '0755'
+  - path: /var/log
+    mode: '0755'
+  - path: /dev
+    mode: '0755'
+  - path: /run
+    mode: '0755'
+  - path: /etc/pacman.d
+    mode: '0755'
+  - path: /tmp
+    mode: '1777'
+  - path: /sys
+    mode: '0555'
+  - path: /proc
+    mode: '0555'

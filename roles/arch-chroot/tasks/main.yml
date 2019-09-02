@@ -20,6 +20,31 @@
   loop_control:
     label: '{{ item.path }}'
 
+# The mount module will automatically creates the mountpoints
+# if they don't exist, but creates only directories
+# and mount binding requires a file
+- name: Ensure parent directories of file mountpoints exist
+  file:
+    path: '{{ chroot_dir }}{{ item.item.path | dirname }}'
+    state: directory
+  when:
+    - item.stat.exists
+    - item.stat.isreg
+  with_items: '{{ _chroot_maybe_stat.results }}'
+  loop_control:
+    label: '{{ item.item.path }}'
+
+- name: Ensure file mountpoints exist
+  file:
+    path: '{{ chroot_dir }}{{ item.item.path }}'
+    state: touch
+  when:
+    - item.stat.exists
+    - item.stat.isreg
+  with_items: '{{ _chroot_maybe_stat.results }}'
+  loop_control:
+    label: '{{ item.item.path }}'
+
 - name: Maybe mount filesystems
   mount:
     src: '{{ item.item.src }}'
@@ -31,9 +56,3 @@
   with_items: '{{ _chroot_maybe_stat.results }}'
   loop_control:
     label: '{{ item.item.path }}'
-
-- name: Install python in chroot # noqa 301
-  command: >
-    pacman -S python --noconfirm
-      --root {{ chroot_dir }}
-      --cachedir {{ chroot_dir }}/var/cache/pacman/pkg
