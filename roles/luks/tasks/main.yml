@@ -23,7 +23,9 @@
     '{{ item.item.device }}'
   args:
     stdin: '{{ item.item.passphrase }}'
-    stdin_add_newline: false
+    # 304 is false positive:
+    # ansible-lint doesn't know about stdin_add_newline and strip_empty_ends
+    stdin_add_newline: false # noqa 304
     strip_empty_ends: false
   when: item.rc != 0
   with_items: '{{ _cryptsetup_islucks.results }}'
@@ -47,7 +49,9 @@
      '{{ item.item.name }}'
   args:
     stdin: '{{ item.item.passphrase }}'
-    stdin_add_newline: false
+    # 304 is false positive:
+    # ansible-lint doesn't know about stdin_add_newline and strip_empty_ends
+    stdin_add_newline: false # noqa 304
     strip_empty_ends: false
   when: item.rc != 0
   with_items: '{{ _cryptsetup_isactive.results }}'
@@ -108,7 +112,9 @@
     '{{ item.item.keyfile }}'
   args:
     stdin: '{{ item.item.passphrase }}'
-    stdin_add_newline: false
+    # 304 is false positive:
+    # ansible-lint doesn't know about stdin_add_newline and strip_empty_ends
+    stdin_add_newline: false # noqa 304
     strip_empty_ends: false
   when:
     - item.item.keyfile is defined
