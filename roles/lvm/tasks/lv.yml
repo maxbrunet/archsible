@@ -9,19 +9,10 @@
   loop_control:
     label: '{{ item.lv }}'
 
-- name: '{{ volume.vg }} - Handle swap filesystems'
-  include_tasks: swap.yml
-  when: item.fstype == 'swap'
-  with_items: '{{ volume.lvs }}'
-  loop_control:
-    label: '{{ item.lv }}'
-
 - name: '{{ volume.vg }} - Create filesystems'
   filesystem:
     fstype: '{{ item.fstype }}'
     dev: '/dev/{{ volume.vg }}/{{ item.lv }}'
   with_items: '{{ volume.lvs }}'
-  # Swap support will be added in Ansible 2.8
-  when: item.fstype != 'swap'
   loop_control:
     label: '{{ item.lv }}'
