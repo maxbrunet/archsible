@@ -16,13 +16,15 @@
     label: '{{ item.device }}'
 
 - name: Format LUKS volumes
-  # Use shell with pipe, because command's stdin arg
-  # seems to alter the passphrase
-  shell: printf '{{ item.item.passphrase }}' | cryptsetup luksFormat
+  command: cryptsetup luksFormat
     --batch-mode
     --type luks1
     --key-file -
     '{{ item.item.device }}'
+  args:
+    stdin: '{{ item.item.passphrase }}'
+    stdin_add_newline: false
+    strip_empty_ends: false
   when: item.rc != 0
   with_items: '{{ _cryptsetup_islucks.results }}'
   loop_control:
@@ -39,12 +41,14 @@
     label: '{{ item.name }}'
 
 - name: Open LUKS volumes
-  # Use shell with pipe, because command's stdin arg
-  # seems to alter the passphrase
-  shell: printf '{{ item.item.passphrase }}' | cryptsetup open
+  command: cryptsetup open
      --key-file -
      '{{ item.item.device }}'
      '{{ item.item.name }}'
+  args:
+    stdin: '{{ item.item.passphrase }}'
+    stdin_add_newline: false
+    strip_empty_ends: false
   when: item.rc != 0
   with_items: '{{ _cryptsetup_isactive.results }}'
   loop_control:
@@ -98,12 +102,14 @@
     label: '{{ item.device }}'
 
 - name: Add key to LUKS volumes
-  # Use shell with pipe, because command's stdin arg
-  # seems to alter the passphrase
-  shell: printf '{{ item.item.passphrase }}' | cryptsetup luksAddKey
+  command: cryptsetup luksAddKey
     --key-file -
     '{{ item.item.device }}'
     '{{ item.item.keyfile }}'
+  args:
+    stdin: '{{ item.item.passphrase }}'
+    stdin_add_newline: false
+    strip_empty_ends: false
   when:
     - item.item.keyfile is defined
     - item.rc != 0
