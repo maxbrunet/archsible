@@ -32,7 +32,7 @@
   loop_control:
     label: '{{ item.item.path }}'
 
-- name: Install python in chroot
+- name: Install python in chroot # noqa 301
   command: >
     pacman -S python --noconfirm
       --root {{ chroot_dir }}
