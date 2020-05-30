@@ -1,0 +1,4 @@
+---
+# vars file for lvm
+
+_lvm_filesystems_progs: [lvm]

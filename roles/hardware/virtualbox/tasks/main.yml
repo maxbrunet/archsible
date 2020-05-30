@@ -7,7 +7,6 @@
   pacman:
     name:
       - virtualbox-guest-utils
-      - virtualbox-guest-modules-arch
       - nfs-utils
 
 - name: Enable VB guest services
