@@ -6,7 +6,7 @@ connman_conf:
     settings:
       # https://wiki.archlinux.org/index.php/ConnMan#Avoid_changing_the_hostname
       - option: AllowHostnameUpdates
-        value: false
+        value: 'false'
       # https://wiki.archlinux.org/index.php/ConnMan#Prefer_ethernet_to_wireless
       - option: PreferredTechnologies
         value: ethernet,wifi

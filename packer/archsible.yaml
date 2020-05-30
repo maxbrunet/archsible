@@ -1,7 +1,7 @@
 ---
 variables:
-  iso_url: https://mirrors.kernel.org/archlinux/iso/2019.09.01/archlinux-2019.09.01-x86_64.iso
-  iso_checksum_url: https://mirrors.kernel.org/archlinux/iso/2019.09.01/sha1sums.txt
+  iso_url: https://mirrors.kernel.org/archlinux/iso/2020.05.01/archlinux-2020.05.01-x86_64.iso
+  iso_checksum_url: https://mirrors.kernel.org/archlinux/iso/2020.05.01/sha1sums.txt
   iso_checksum_type: sha1
   ssh_timeout: 20m
   country: US
@@ -16,9 +16,9 @@ builders:
   guest_os_type: ArchLinux_64
   guest_additions_mode: disable
   http_directory: packer/http
-  boot_wait: 5s
+  boot_wait: 2s
   boot_command:
-  - <enter><wait10><wait10><wait10><wait10>
+  - <up><up><enter><wait10><wait10><wait10><wait10>
   - 'curl -O "{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh"<enter><wait>'
   - sh enable-ssh.sh<enter>
   memory: 1024

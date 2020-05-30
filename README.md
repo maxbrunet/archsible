@@ -50,7 +50,7 @@ ansible-playbook --inventory localhost, archsible.yml
 * Requirements
   * [Packer](https://www.packer.io)
   * [Vagrant](https://www.vagrantup.com)
-  * [VirtalBox](https://www.virtualbox.org)
+  * [VirtualBox](https://www.virtualbox.org)
 * Build Vagrant box
 
 ```bash

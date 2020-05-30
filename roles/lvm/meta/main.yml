@@ -58,5 +58,6 @@ dependencies:
       filesystems_progs: '{{
         lvm_volumes
           | map(attribute="lvs") | flatten(levels=1)
-          | map(attribute="fstype") | unique
+          | map(attribute="fstype") | list
+          + _lvm_filesystems_progs | unique
       }}'
