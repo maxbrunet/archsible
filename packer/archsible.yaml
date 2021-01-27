@@ -1,13 +1,47 @@
 ---
 variables:
-  iso_url: https://mirrors.kernel.org/archlinux/iso/2020.05.01/archlinux-2020.05.01-x86_64.iso
-  iso_checksum_url: https://mirrors.kernel.org/archlinux/iso/2020.05.01/sha1sums.txt
+  iso_url: https://mirrors.kernel.org/archlinux/iso/2021.01.01/archlinux-2021.01.01-x86_64.iso
+  iso_checksum_url: https://mirrors.kernel.org/archlinux/iso/2021.01.01/sha1sums.txt
   iso_checksum_type: sha1
   ssh_timeout: 20m
   country: US
   headless: 'true'
   ansible_staging_directory: /tmp/packer-provisioner-ansible-local
+  ovmf_path: /usr/share/qemu/ovmf-x86_64.bin
 builders:
+- type: qemu
+  iso_url: '{{ user `iso_url` }}'
+  iso_checksum_url: '{{ user `iso_checksum_url` }}'
+  iso_checksum_type: '{{ user `iso_checksum_type` }}'
+  http_directory: packer/http
+  boot_wait: 2s
+  boot_command:
+  - <up><up><enter><wait10><wait10><wait10><wait10>
+  - 'curl -O "{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh"<enter><wait>'
+  - sh enable-ssh.sh<enter>
+  memory: 1024
+  disk_size: 131072
+  disk_interface: virtio-scsi
+  # Enable TRIM
+  # https://www.qemu.org/docs/master/system/invocation.html#hxtool-1
+  disk_discard: unmap
+  disk_detect_zeroes: unmap
+  ssh_username: root
+  ssh_password: vagrant
+  ssh_timeout: '{{ user `ssh_timeout` }}'
+  shutdown_command: sudo systemctl start poweroff.timer
+  headless: '{{ user `headless` }}'
+  qemuargs:
+  # Firmware for UEFI boot
+  - - -bios
+    - '{{ user `ovmf_path` }}'
+  # Emulate SSD (non-rotational disk) with `rotation_rate=1`
+  # Overriding of `-device` param for qemu builder breaks `virtio-scsi` driver.
+  # https://github.com/hashicorp/packer/issues/3348
+  - - -device
+    - virtio-scsi-pci,id=scsi0
+  - - -device
+    - scsi-hd,bus=scsi0.0,drive=drive0,rotation_rate=1
 - type: virtualbox-iso
   iso_url: '{{ user `iso_url` }}'
   iso_checksum_url: '{{ user `iso_checksum_url` }}'
@@ -18,7 +52,7 @@ builders:
   http_directory: packer/http
   boot_wait: 2s
   boot_command:
-  - <up><up><enter><wait10><wait10><wait10><wait10>
+  - <up><up><enter><wait10><wait10><wait10><wait10><wait10>
   - 'curl -O "{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh"<enter><wait>'
   - sh enable-ssh.sh<enter>
   memory: 1024
@@ -67,4 +101,4 @@ provisioners:
   staging_directory: '{{ user `ansible_staging_directory` }}'
 post-processors:
 - type: vagrant
-  output: boxes/archsible.box
+  output: 'boxes/archsible_{{ .Provider }}.box'

@@ -1,7 +1,7 @@
 ---
 
 partition_volumes:
-  - device: /dev/sda
+  - device: '{{ disk_device | default("/dev/sda") }}'
     label: gpt
     partitions:
       - name: EFI
@@ -88,6 +88,7 @@ mount_volumes:
     path: /root
     fstype: btrfs
     opts: subvol=@root
+    mount_mode: '0750'
   - src: /dev/system/root
     path: /srv
     fstype: btrfs
