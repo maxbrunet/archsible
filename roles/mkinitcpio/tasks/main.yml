@@ -1,6 +1,10 @@
 ---
 # tasks file for mkinitcpio
 
+- name: Ensure Linux kernel package is installed
+  pacman:
+    name: '{{ mkinitcpio_kernel_package }}'
+
 - name: Install hooks dependencies
   pacman:
     name: '{{ _mkinitcpio_hookdeps[item] }}'

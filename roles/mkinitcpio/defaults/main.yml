@@ -1,6 +1,7 @@
 ---
 # defaults file for mkinitcpio
 
+mkinitcpio_kernel_package: linux
 mkinitcpio_command: >
   mkinitcpio
     --config {{ mkinitcpio_conf }}

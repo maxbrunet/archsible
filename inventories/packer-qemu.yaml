@@ -1,0 +1,5 @@
+---
+testing:
+  hosts:
+    packer-qemu:
+      ansible_connection: local
