@@ -54,7 +54,7 @@ ansible-playbook --inventory localhost, archsible.yml
 * Build Vagrant box
 
 ```bash
-packer build <(scripts/yaml2json.rb < packer/archsible.yaml)
+packer build packer/
 ```
 
 * Create virtual machine
