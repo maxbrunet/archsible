@@ -9,6 +9,7 @@ boxes/archsible_libvirt.box:
 boxes/archsible_virtualbox.box:
 	@packer build -on-error=ask -only=archsible.virtualbox-iso.default packer/
 
+.PHONY: up
 up: boxes/archsible_$(PROVIDER).box
 	VAGRANT_EXPERIMENTAL='typed_triggers' vagrant up --provider=$(PROVIDER)
 
