@@ -11,7 +11,7 @@
 - name: Install Intel microcode
   pacman:
     name: intel-ucode
-  when: ansible_processor | map('search', 'Intel')
+  when: ansible_processor is search('Intel')
   notify: Install GRUB
 
 - name: Ensure EFI directory exits
