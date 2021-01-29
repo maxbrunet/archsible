@@ -1,6 +1,6 @@
-# arch-chroot
+# arch_chroot
 
-Reproduce the behavior of the [`arch-root` script](https://wiki.archlinux.org/index.php/Change_root#Using_arch-chroot) for Ansible by mounting the api filesystems and making `/etc/resolv.conf` available from the chroot.
+Reproduce the behavior of the [`arch-chroot` script](https://wiki.archlinux.org/index.php/Change_root#Using_arch_chroot) for Ansible by mounting the api filesystems and making `/etc/resolv.conf` available from the chroot.
 
 ## Requirements
 
@@ -21,7 +21,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: arch-chroot
+    - role: arch_chroot
       chroot_dir: /path/to/new/root
 ```
 

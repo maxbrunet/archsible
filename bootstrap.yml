@@ -14,7 +14,7 @@
       mount_base_path: '{{ _bootstrap_chroot }}'
     - role: pacstrap
       pacstrap_root: '{{ _bootstrap_chroot }}'
-    - role: arch-chroot
+    - role: arch_chroot
       chroot_mnt: '{{ _bootstrap_chroot }}'
 
 - import_playbook: archsible.yml

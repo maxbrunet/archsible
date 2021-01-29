@@ -5,6 +5,7 @@
     content: |
       {{ locales_hostname }}
     dest: /etc/hostname
+    mode: '0644'
 
 - name: Add local hostname to hosts file
   lineinfile:
@@ -28,12 +29,14 @@
     path: /etc/localtime
     src: '/usr/share/zoneinfo/{{ locales_timezone }}'
     state: link
+    mode: '0777'
 
 - name: Set keymap
   copy:
     content: |
       KEYMAP={{ locales_keymap }}
     dest: /etc/vconsole.conf
+    mode: '0644'
 
 - name: Uncomment locale
   replace:
@@ -47,3 +50,4 @@
     content: |
       LANG={{ locales_language }}
     dest: /etc/locale.conf
+    mode: '0644'

@@ -53,7 +53,7 @@ galaxy_info:
     #       Maximum 20 tags per role.
 
 dependencies:
-  - role: filesystems-progs
+  - role: filesystems_progs
     vars:
       filesystems_progs: '{{
         lvm_volumes

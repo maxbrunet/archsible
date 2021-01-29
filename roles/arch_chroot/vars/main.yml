@@ -1,5 +1,5 @@
 ---
-# vars file for arch-chroot
+# vars file for arch_chroot
 
 _chroot_mnt:
   - src: proc

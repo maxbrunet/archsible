@@ -1,4 +1,4 @@
-# Bootloader - systemd-boot
+# Bootloader - systemd_boot
 
 Install `systemd-boot` and create a minimal configuration to use it for UEFI boot.
 
@@ -24,7 +24,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: bootloader/systemd-boot
+    - role: bootloader/systemd_boot
 ```
 
 ## Author Information

@@ -1,4 +1,4 @@
-# filesystems-progs
+# filesystems_progs
 
 Install filesystems programs.
 
@@ -21,7 +21,7 @@ None
 ```yaml
 - hosts: arch
   roles:
-    - role: filesystems-progs
+    - role: filesystems_progs
 ```
 
 ## Author Information

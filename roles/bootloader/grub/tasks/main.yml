@@ -18,10 +18,12 @@
   file:
     path: '{{ grub_efi_directory }}'
     state: directory
+    mode: '0755'
   notify: Install GRUB
 
 - name: Configure GRUB default settings
   template:
     src: grub.default.j2
     dest: /etc/default/grub
+    mode: '0644'
   notify: Configure GRUB
