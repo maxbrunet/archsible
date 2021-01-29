@@ -21,4 +21,5 @@
   copy:
     content: '{{ _grub_config.stdout }}'
     dest: '{{ grub_config_path }}'
+    mode: '0600'
   listen: Configure GRUB

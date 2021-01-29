@@ -8,12 +8,14 @@
   template:
     src: arch.conf.j2
     dest: '{{ systemd_boot_entry }}'
+    mode: '0600'
 
 - name: Configure default entry
   copy:
     content: |
       default arch
     dest: '{{ systemd_boot_esp }}/loader/loader.conf'
+    mode: '0600'
 
 - name: Install Intel microcode
   pacman:

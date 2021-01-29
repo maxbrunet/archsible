@@ -5,6 +5,7 @@
       '/etc/systemd/system/multi-user.target.wants/dhcpcd@{{ item }}.service'
     src: /usr/lib/systemd/system/dhcpcd@.service
     state: '{{ "link" if not dhcpd_all_interfaces else "absent" }}'
+    mode: '0644'
   with_items: '{{ dhcpd_interfaces }}'
 
 - name: Set dhcpd service status

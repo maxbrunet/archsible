@@ -15,6 +15,7 @@
   template:
     src: mkinitcpio.conf.j2
     dest: '{{ mkinitcpio_conf }}'
+    mode: '0644'
   notify:
     - Refresh initramfs image
 
