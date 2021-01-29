@@ -1,5 +1,5 @@
 ---
-# tasks file for systemd-boot
+# tasks file for systemd_boot
 
 - name: Install systemd-boot
   command: 'bootctl --path={{ systemd_boot_esp }} install'
@@ -9,7 +9,7 @@
     src: arch.conf.j2
     dest: '{{ systemd_boot_entry }}'
 
-- name: Configure default entrie
+- name: Configure default entry
   copy:
     content: |
       default arch
