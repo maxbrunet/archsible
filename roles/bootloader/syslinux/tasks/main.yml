@@ -8,7 +8,7 @@
     - syslinux
 
 - name: BIOS - Install Syslinux
-  command: 'syslinux-install_update -i -a -m'
+  command: 'syslinux-install_update -i -a -m' # noqa 301
 
 - name: Stat root device
   stat:
