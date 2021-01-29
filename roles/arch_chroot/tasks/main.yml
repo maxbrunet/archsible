@@ -1,5 +1,5 @@
 ---
-# tasks file for arch-chroot
+# tasks file for arch_chroot
 
 - name: Mount api filesystems
   mount:
