@@ -1,5 +1,5 @@
 ---
-# vars file for filesystems-progs
+# vars file for filesystems_progs
 
 _filesystems_progs:
   btrfs: btrfs-progs

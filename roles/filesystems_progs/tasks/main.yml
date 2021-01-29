@@ -1,5 +1,5 @@
 ---
-# tasks file for filesystems-progs
+# tasks file for filesystems_progs
 
 - name: Ensure filesystems utilities are installed
   pacman:
