@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "libvirt" do |libvirt, override|
     override.vm.box_url = "boxes/archsible_libvirt.box"
     libvirt.loader = ovmf_path
+    libvirt.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
     # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/692
     # libvirt.disk_bus = 'virtio-scsi'
     # libvirt.qemuargs :value => "-set"
@@ -29,6 +30,14 @@ Vagrant.configure("2") do |config|
           sleep(1)
           w.puts(luks_passphrase)
         end
+      end
+    end
+    # Should happen during `vagrant box remove`
+    # https://github.com/vagrant-libvirt/vagrant-libvirt/issues/85
+    config.trigger.after :destroy do |trigger|
+      trigger.name = "Remove Vagrant box image from libvirt volume pool"
+      trigger.ruby do |env,machine|
+        system("virsh vol-delete --pool default '#{config.vm.box}_vagrant_box_image_0.img'")
       end
     end
   end

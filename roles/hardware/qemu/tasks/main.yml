@@ -1,0 +1,13 @@
+---
+# tasks file for qemu
+
+# QEMU Guest Agent
+# https://wiki.archlinux.org/index.php/QEMU#Preparing_an_(Arch)_Linux_guest
+- name: Install QEMU Guest Agent
+  pacman:
+    name: qemu-guest-agent
+
+- name: Enable QEMU Guest Agent service
+  service:
+    name: qemu-guest-agent
+    enabled: true
