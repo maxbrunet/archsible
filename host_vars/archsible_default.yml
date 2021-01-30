@@ -1,4 +1,5 @@
 ---
+# vagrant-libvirt
 disk_device: /dev/vda
 
 grub_cmdline_linux: cryptdevice=/dev/disk/by-partlabel/Primary:cryptlvm cryptkey=rootfs:/root/cryptlvm.keyfile console=ttyS0

@@ -9,6 +9,9 @@
     - role: mount
     - role: locales
     - role: network/connman
+    - name: QEMU hardware
+      role: hardware/qemu
+      when: ansible_system_vendor == "QEMU"
     - name: VirtualBox hardware
       role: hardware/virtualbox
       when: ansible_product_name == "VirtualBox"
