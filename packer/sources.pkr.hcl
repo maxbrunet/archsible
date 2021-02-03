@@ -25,14 +25,14 @@ source "qemu" "default" {
     ["-device", "virtio-scsi-pci,id=scsi0"],
     ["-device", "scsi-hd,bus=scsi0.0,drive=drive0,rotation_rate=1"]
   ]
-  shutdown_command = "sudo systemctl start poweroff.timer"
+  shutdown_command = "poweroff"
   ssh_password     = "vagrant"
   ssh_username     = "root"
 }
 
 source "virtualbox-iso" "default" {
   boot_command = [
-    "<up><up><enter><wait10><wait10><wait10><wait10><wait10>",
+    "<up><up><enter><wait10><wait10><wait10><wait10><wait10><wait10>",
     "curl -sSfO '{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh'<enter><wait>",
     "sh enable-ssh.sh<enter>"
   ]
@@ -48,7 +48,7 @@ source "virtualbox-iso" "default" {
   iso_interface            = "sata"
   iso_url                  = var.iso_url
   memory                   = 1024
-  shutdown_command         = "sudo systemctl start poweroff.timer"
+  shutdown_command         = "poweroff"
   ssh_password             = "vagrant"
   ssh_username             = "root"
   vboxmanage = [

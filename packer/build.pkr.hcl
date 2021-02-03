@@ -12,7 +12,6 @@ build {
       "echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist",
       "pacman -Sy --noconfirm git python-pip python-wheel",
       "pip install -r \"http://$${PACKER_HTTP_ADDR}/requirements.txt\"",
-      "curl -sSf \"$${PACKER_HTTP_ADDR}/poweroff.timer\" -o /etc/systemd/system/poweroff.timer",
       format("mkdir -p '%s'", var.ansible_staging_directory)
     ]
   }
