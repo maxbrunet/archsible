@@ -12,9 +12,9 @@ repos:
     - id: ansible-lint
 - repo: local
   hooks:
-    - id: packer_fmt
-      name: packer_fmt
+    - id: packer-fmt
+      name: packer-fmt
       description: Rewrites all Packer configuration files to a canonical format.
-      entry: scripts/packer_fmt.sh
-      language: script
+      entry: sh -c 'for f in "${@}"; do packer fmt "${f}"; done' --
+      language: system
       files: '^.*\.pkr(?:vars)?\.hcl$'
