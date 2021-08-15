@@ -36,3 +36,11 @@ variable "ovmf_path" {
   description = "Path to OVMF binary, the sample UEFI firmware for QEMU and KVM."
   default     = "/usr/share/qemu/ovmf-x86_64.bin"
 }
+
+variable "user_password" {
+  type        = string
+  description = "Crypted user's password."
+  # Crypted password generated with:
+  # python -c 'import crypt; print(crypt.crypt("vagrant", crypt.mksalt(crypt.METHOD_SHA512)))'
+  default = "$6$RF9eiikaPEUeBlOs$i7TbeuKSXT4wUiwn1MVrSSspWmWpeGC/FMOSz0od1Llhf3squIQxElpT.gO3VkgVTH4Czefb1ClJqXCsWM2Sa/"
+}

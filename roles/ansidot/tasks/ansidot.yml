@@ -1,0 +1,36 @@
+---
+
+- name: '{{ repo.user }} - Clone dotfiles repository'
+  git:
+    repo: '{{ repo.repo }}'
+    dest: '{{ repo.dest }}'
+    version: '{{ repo.version | default(omit) }}'
+    recursive: '{{ repo.recursive | default(omit) }}'
+
+- name: '{{ repo.user }} - Fetch dotfiles configuration'
+  fetch:
+    src: '{{ repo.dest }}/{{ repo.config | default("apps.yml") }}'
+    dest: '/tmp/ansidot_{{ repo.user }}@{{ inventory_hostname }}.yml'
+    flat: true
+  register: _ansidot_config
+
+- name: '{{ repo.user }} - Load dotfiles configuration'
+  include_vars: '/tmp/ansidot_{{ repo.user }}@{{ inventory_hostname }}.yml'
+
+- name: '{{ repo.user }} - Install packages'
+  pacman:
+    name: '{{ _ansidot_packages }}'
+  when: _ansidot_packages
+  vars:
+    _ansidot_packages: '{{ apps | map(attribute="packages", default=[]) | flatten }}'
+  become: true
+  become_user: root
+  tags: ansidot-packages
+
+- name: '{{ repo.user }} - Install dotfiles'
+  include_role:
+    name: maxbrunet.ansidot
+  with_items: '{{ apps }}'
+  loop_control:
+    label: '{{ app.name | default(app) }}'
+    loop_var: app

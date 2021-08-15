@@ -15,6 +15,11 @@
     - name: VirtualBox hardware
       role: hardware/virtualbox
       when: ansible_product_name == "VirtualBox"
-    - role: vagrant
     - role: mkinitcpio
     - role: bootloader/grub
+    - role: users
+    - role: ansidot
+    - role: vagrant
+      when: >
+        ansible_system_vendor == "QEMU"
+        or ansible_product_name == "VirtualBox"
