@@ -32,7 +32,7 @@ source "qemu" "default" {
 
 source "virtualbox-iso" "default" {
   boot_command = [
-    "<up><up><enter><wait10><wait10><wait10><wait10><wait10><wait10>",
+    "<up><up><enter><wait10><wait10><wait10><wait10><wait10><wait10><wait10>",
     "curl -sSfO '{{ .HTTPIP }}:{{ .HTTPPort }}/enable-ssh.sh'<enter><wait>",
     "sh enable-ssh.sh<enter>"
   ]

@@ -22,13 +22,13 @@ variable "headless" {
 variable "iso_checksum" {
   type        = string
   description = "The checksum for the ISO file."
-  default     = "file:https://mirrors.kernel.org/archlinux/iso/2021.02.01/sha1sums.txt"
+  default     = "file:https://mirrors.kernel.org/archlinux/iso/2021.08.01/sha1sums.txt"
 }
 
 variable "iso_url" {
   type        = string
   description = "A URL to the ISO containing the installation image."
-  default     = "https://mirrors.kernel.org/archlinux/iso/2021.02.01/archlinux-2021.02.01-x86_64.iso"
+  default     = "https://mirrors.kernel.org/archlinux/iso/2021.08.01/archlinux-2021.08.01-x86_64.iso"
 }
 
 variable "ovmf_path" {
