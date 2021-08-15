@@ -32,15 +32,15 @@ lvm_volumes:
   - vg: system
     pvs: /dev/mapper/cryptlvm
     lvs:
-     - lv: root
-       size: 40G
-       fstype: btrfs
-     - lv: home
-       size: 50G
-       fstype: xfs
-     - lv: swap
-       size: 4G
-       fstype: swap
+      - lv: root
+        size: 40G
+        fstype: btrfs
+      - lv: home
+        size: 50G
+        fstype: xfs
+      - lv: swap
+        size: 4G
+        fstype: swap
 
 btrfs_volumes:
   - device: /dev/system/root
@@ -59,17 +59,17 @@ mount_volumes:
     path: /boot/efi
     fstype: vfat
     opts: defaults
-    #passno: 2
+    # passno: 2
   - src: /dev/system/root
     path: /
     fstype: btrfs
     opts: defaults
-    #passno: 1
+    # passno: 1
   - src: /dev/system/home
     path: /home
     fstype: xfs
     opts: defaults
-    #passno: 2
+    # passno: 2
   - src: /dev/system/swap
     path: swap
     fstype: swap

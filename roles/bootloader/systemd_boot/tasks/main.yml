@@ -2,7 +2,7 @@
 # tasks file for systemd_boot
 
 - name: Install systemd-boot
-  command: 'bootctl --path={{ systemd_boot_esp }} install' # noqa 301
+  command: 'bootctl --path={{ systemd_boot_esp }} install'  # noqa 301
 
 - name: Create boot entry
   template:

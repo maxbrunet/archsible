@@ -3,5 +3,5 @@ exclude_paths:
   - roles/vendor
 skip_list:
   # We will take care of the metadata later
-  - 701
-  - 703
+  - meta-incorrect
+  - meta-no-info

@@ -25,6 +25,7 @@
     stdin: '{{ item.item.passphrase }}'
     stdin_add_newline: false
     strip_empty_ends: false
+  no_log: true
   when: item.rc != 0
   with_items: '{{ _cryptsetup_islucks.results }}'
   loop_control:
@@ -49,6 +50,7 @@
     stdin: '{{ item.item.passphrase }}'
     stdin_add_newline: false
     strip_empty_ends: false
+  no_log: true
   when: item.rc != 0
   with_items: '{{ _cryptsetup_isactive.results }}'
   loop_control:
@@ -61,6 +63,7 @@
     password: '{{ item.password | default(omit) }}'
     opts: '{{ item.opts | default(omit) }}'
     state: present
+  no_log: true
   with_items: '{{ luks_volumes }}'
   loop_control:
     label: '{{ item.name }}'
@@ -110,6 +113,7 @@
     stdin: '{{ item.item.passphrase }}'
     stdin_add_newline: false
     strip_empty_ends: false
+  no_log: true
   when:
     - item.item.keyfile is defined
     - item.rc != 0
