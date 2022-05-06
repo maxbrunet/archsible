@@ -38,6 +38,10 @@ source "virtualbox-iso" "default" {
   ]
   boot_wait                = "2s"
   disk_size                = 131072
+  gfx_controller           = "vmsvga"
+  gfx_accelerate_3d        = true
+  gfx_vram_size            = 16
+  gfx_efi_resolution       = "1280x720"
   guest_additions_mode     = "disable"
   guest_os_type            = "ArchLinux_64"
   hard_drive_interface     = "sata"

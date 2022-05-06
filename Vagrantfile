@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
     config.trigger.after :destroy do |trigger|
       trigger.name = "Remove Vagrant box image from libvirt volume pool"
       trigger.ruby do |env,machine|
-        system("virsh vol-delete --pool default '#{config.vm.box}_vagrant_box_image_0.img'")
+        system("virsh vol-delete --pool default '#{config.vm.box}_vagrant_box_image_0_box.img'")
       end
     end
   end
