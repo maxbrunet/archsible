@@ -1,5 +1,7 @@
 # Archsible
 
+**Archived: This was an attempt to combine a distribution and a tool I loved to create a declarative setup, but it turned out to require too much effort, I now use [NixOS](https://github.com/maxbrunet/naxos) which is built with this philosophy.**
+
 Ansible playbook to fully manage your Arch linux installation from bootstrap to day-to-day changes.
 
 This is a work in progress and still at an early stage of development, I aim to only manage my personal Linux installation for the moment. But if I have time, I'll try to turn it into a flexible framework to support different pieces of hardware and software with a lot of room for customization.
